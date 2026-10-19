@@ -472,13 +472,13 @@ const SITE = {
   ],
   projects: [
     {
-      id: 'stylisharena', cat: 'unreal', scene: 'arena', live: true, title: 'Stylish : Arena', engine: 'Unreal Engine 5', status: '개발 중', role: '기획 · 개발',
+      id: 'stylisharena', cat: 'unreal', scene: 'arena', live: true, title: 'Stylish : Arena', engine: 'Unreal Engine 5', status: '', role: '기획 · 개발',
       desc: '초능력과 입체적인 이동을 활용해 전장을 누비는 하이퍼 FPS 배틀로얄',
       points: ['자료 정리중----------------------------------------']
     },
 
     {
-      id: 'dream', cat: 'msw', scene: 'dream', live: true, title: 'Lucid Dream', engine: 'MapleStory Worlds · mLua', status: '개발중', role: '기획 · 개발',
+      id: 'dream', cat: 'msw', scene: 'dream', live: true, title: 'Lucid Dream', engine: 'MapleStory Worlds · mLua', status: '', role: '기획 · 개발',
       desc: '루시드에게 꿈을 빼앗긴 사람들의 이야기를 담은 2D 횡스크롤 로그라이크',
       points: ['자료 정리중----------------------------------------']
     },
@@ -490,7 +490,7 @@ const SITE = {
     },
 
     {
-      id: 'unitygame', cat: 'unity', scene: 'tagom', title: '빙하타곰', engine: 'Unity', status: '완성', role: '개발',
+      id: 'unitygame', cat: 'unity', scene: 'tagom', title: '빙하타곰', engine: 'Unity', status: '', role: '개발',
       desc: '움직이는 빙하를 타이밍에 맞춰 쌓아 올리며 최고 기록에 도전하는 캐주얼 아케이드 게임',
       points: ['자료 정리중----------------------------------------']
     },
@@ -1385,7 +1385,7 @@ grid.innerHTML = SITE.projects.map((p,i)=>`
   <button class="card" type="button" data-id="${p.id}" data-cat="${p.cat}">
     <span class="thumb"><canvas data-scene="${p.scene}" data-seed="${i+3}"></canvas>${p.live?'<span class="live">DEV</span>':''}<span class="badge">${esc(p.engine.split(' · ')[0])}</span></span>
     
-<span class="card-body"><span class="mini-av" aria-hidden="true">하</span><span><span class="ct">${esc(p.title)}</span><span class="meta">${esc(p.status)}${p.role ? ' · ' + esc(p.role) : ''}</span></span></span>
+<span class="card-body"><span class="mini-av" aria-hidden="true">하</span><span><span class="ct">${esc(p.title)}</span><span class="meta">${esc(p.status)}${p.status && p.role ? ' · ' : ''}${esc(p.role || '')}</span></span></span>
 
   </button>`).join('');
 function paintThumbs(){ grid.querySelectorAll('canvas').forEach(cv=>{ if(cv.offsetParent) drawStatic(cv, cv.dataset.scene, +cv.dataset.seed); }); }
