@@ -283,8 +283,8 @@ footer{padding-block:28px 40px;color:var(--dim);font-size:12px}
 <body>
 <header class="nav" id="nav">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="맨 위로"><span class="brand-mark">HSW</span><span class="brand-name">하성욱<span class="brand-sub"> · Technical Game Designer</span></span></a>
-    <nav class="nav-links" aria-label="섹션 이동"><a href="#workflow">작업 방식</a><a href="#channel">프로젝트</a><a href="#contact">연락</a></nav>
+    <a class="brand" href="#top" aria-label="맨 위로"><span class="brand-mark">HSW</span><span class="brand-name">하성욱<span class="brand-sub"> </span></span></a>
+    <nav class="nav-links" aria-label="섹션 이동"><a href="#workflow">작업 방식</a><a href="#channel">프로젝트</a><a href="#contact">협업</a></nav>
   </div>
 </header>
 
@@ -321,7 +321,7 @@ footer{padding-block:28px 40px;color:var(--dim);font-size:12px}
     </div>
 
     <div class="hero-copy wrap">
-      <p class="eyebrow">Game Developer · 하성욱</p>
+      <p class="eyebrow">TECHNICAL GAME DESIGNER · 하성욱</p>
       <h1 id="heroTitle">Beyond the Game.<br><em>The Art of Play.</em></h1>
       <p class="lede">재미를 기획하고, 경험을 설계하는 테크니컬 게임 디자이너입니다.</p>
       <div class="channels" id="channels" role="group" aria-label="나를 설명하는 세 가지 채널">
@@ -354,7 +354,6 @@ footer{padding-block:28px 40px;color:var(--dim);font-size:12px}
       <p class="hint mono">카드를 선택해 저의 게임 디자인 철학을 살펴보세요.</p>
       <div class="cta-row">
         <a class="btn btn-glow" href="#channel">프로젝트 보기 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
-        <a class="btn" href="#channel" data-tab-link="about">정보 · 도구</a>
       </div>
     </div>
   </section>
@@ -408,31 +407,9 @@ footer{padding-block:28px 40px;color:var(--dim);font-size:12px}
           <button class="tab" role="tab" type="button" data-tab="unity" aria-selected="false">유니티</button>
           <button class="tab" role="tab" type="button" data-tab="msw" aria-selected="false">MSW</button>
           <button class="tab" role="tab" type="button" data-tab="research" aria-selected="false">연구 · 도구</button>
-          <button class="tab" role="tab" type="button" data-tab="about" aria-selected="false">정보</button>
         </div>
       </div>
       <div class="grid" id="grid"></div>
-      <div class="info" id="info" hidden>
-        <div class="info-box">
-          <h3>기본 정보</h3>
-          <dl class="kv">
-            <dt>이름</dt><dd>하성욱</dd>
-            <dt>하는 일</dt><dd>게임 개발 · 게임 연구</dd>
-            <dt>연구</dt><dd>게임 장르 트렌드 (교수 공동 연구)</dd>
-            <dt>개발 기록</dt><dd>인스타그램 1인개발 계정</dd>
-            <dt>연락</dt><dd id="infoMail"></dd>
-          </dl>
-        </div>
-        <div class="info-box">
-          <h3>쓰는 도구</h3>
-          <p class="grp">엔진</p>
-          <ul class="chips"><li>Unreal Engine 5 · 블루프린트</li><li>Unity</li><li>MapleStory Worlds · mLua</li></ul>
-          <p class="grp">AI</p>
-          <ul class="chips"><li>Claude</li><li>Unreal MCP</li><li>MSW AI ToolKit</li></ul>
-          <p class="grp">연구</p>
-          <ul class="chips" style="margin-bottom:0"><li>Excel 연구 워크북</li><li>랭킹 데이터 2004–2025</li></ul>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -474,7 +451,6 @@ footer{padding-block:28px 40px;color:var(--dim);font-size:12px}
         <div class="wmeta" id="wMeta"></div>
       </div>
       <div class="desc-box"><p id="wDesc"></p><ul id="wPoints"></ul></div>
-      <div class="comments"><h3 id="wLogTitle">개발 로그</h3><ol id="wLogs"></ol></div>
     </div>
   </div>
 </div>
@@ -495,22 +471,31 @@ const SITE = {
     { title: '플레이 테스트 및 개선', text: '직접 플레이하며 문제점을 발견하고, 반복적인 수정을 통해 완성도를 높입니다.', out: '개선된 빌드' }
   ],
   projects: [
-    { id:'stylisharena', cat:'unreal', scene:'arena', live:true, title:'Stylish : Arena', engine:'Unreal Engine 5', status:'개발 중', role:'기획 · 개발',
-      desc:'능력자들이 기동력과 능력으로 싸우는 전투 게임입니다.',
-      points:['기본 달리기는 공통, 이동기는 직업마다 다르게','네 팀이 공정하도록 전장을 90° 회전 대칭으로 재배치','아트 방향: 사암 외벽 · 황동 · 청록 연금술 빛의 도시','Claude와 Unreal MCP로 레벨 작업']},
+    {
+      id: 'stylisharena', cat: 'unreal', scene: 'arena', live: true, title: 'Stylish : Arena', engine: 'Unreal Engine 5', status: '개발 중', role: '기획 · 개발',
+      desc: '초능력과 입체적인 이동을 활용해 전장을 누비는 하이퍼 FPS 배틀로얄',
+      points: ['자료 정리중----------------------------------------']
+    },
 
-    { id:'unitygame', cat:'unity', scene:'tagom', title:'빙하타곰', engine:'Unity', status:'완성', role:'개발',
-      desc:'게임을 한두 문장으로 소개해요.',
-      points:['특징 1','특징 2','특징 3']},
+    {
+      id: 'dream', cat: 'msw', scene: 'dream', live: true, title: 'Lucid Dream', engine: 'MapleStory Worlds · mLua', status: '개발중', role: '기획 · 개발',
+      desc: '루시드에게 꿈을 빼앗긴 사람들의 이야기를 담은 2D 횡스크롤 로그라이크',
+      points: ['자료 정리중----------------------------------------']
+    },
 
-    { id:'dream', cat:'msw', scene:'dream', live:true, title:'Lucid Dream', engine:'MapleStory Worlds · mLua', status:'개발중', role:'기획 · 개발',
-      desc:'루시드에게 꿈을 빼앗긴 사람들의 이야기를 담은 2D 횡스크롤 로그라이크입니다.',
-      points:['기능 하나 추가 → 플레이 테스트 → 통과 후 다음 단계','대시 UI 이후 꼬인 프로젝트를 새로 구축','MSW AI ToolKit 스타터 템플릿으로 월드 생성']},
+    {
+      id: 'research', cat: 'research', scene: 'flow', live: true, title: '게임 장르 트렌드 연구', engine: '연구 · Excel 워크북', status: '동계 학술대회 논문', role: '',
+      desc: 'Steam 연말 매출 상위 Platinum 게임군의 구성 변화 : 2016~2025년 10개 특성에 대한 탐색적 내용분석',
+      points: ['자료 정리중----------------------------------------']
+    },
 
-    { id:'research', cat:'research', scene:'flow', title:'게임 장르 트렌드 연구', engine:'연구 · Excel 워크북', status:'논문 작성 중', role:'공동 저자',
-      desc:'Steam 연말 매출 상위 Platinum 게임군의 구성 변화 : 2016~2025년 10개 특성에 대한 탐색적 내용분석',
-      points:['국내 순위의 장르 쏠림이 전체 흐름을 흐리지 않도록 국내 · 글로벌 데이터 분리','게임 60종을 11개 기준(전투 · 조작감, 세계관, 운영력 등)으로 평가','벤치마크 논문 · 게임 카탈로그 · 분석 틀을 워크북 하나로 정리']},
-   
+    {
+      id: 'unitygame', cat: 'unity', scene: 'tagom', title: '빙하타곰', engine: 'Unity', status: '완성', role: '개발',
+      desc: '움직이는 빙하를 타이밍에 맞춰 쌓아 올리며 최고 기록에 도전하는 캐주얼 아케이드 게임',
+      points: ['자료 정리중----------------------------------------']
+    },
+
+  
   ],
   logs: [
    
@@ -645,6 +630,59 @@ function drawVoice(ctx,w,h,t){
   ctx.fillText('"컴퓨터 절전해줘"  →  PC', w*.5, h*.86);
 }
 
+/* ---------- 빙하타곰: 블록 쌓기 게임의 핵심 플레이를 그린 썸네일 ---------- */
+function drawTagom(ctx,w,h){
+  const cx=w*.48, floor=h*.87;
+  const blockH=h*.115;
+  const widths=[w*.45,w*.40,w*.345,w*.29,w*.235];
+  const offsets=[0,-w*.017,w*.014,-w*.011,w*.012];
+  // 빙하 기둥의 반사광
+  const halo=ctx.createRadialGradient(cx,h*.57,4,cx,h*.57,w*.46);
+  halo.addColorStop(0,'rgba(63,162,255,.17)'); halo.addColorStop(1,'rgba(63,162,255,0)');
+  ctx.fillStyle=halo; ctx.fillRect(0,0,w,h);
+  // 바다 및 눈발
+  ctx.fillStyle='rgba(63,162,255,.10)';ctx.fillRect(0,floor,w,h-floor);
+  ctx.strokeStyle='rgba(111,211,255,.35)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(0,floor);ctx.lineTo(w,floor);ctx.stroke();
+  for(let i=0;i<28;i++){
+    const px=((i*79+13)%337)/337*w;
+    const py=((i*53+17)%211)/211*h*.88;
+    ctx.globalAlpha=.22+(i%4)*.13;
+    ctx.fillStyle=C.ice;ctx.fillRect(px,py,i%3===0?2:1,i%3===0?2:1);
+  }
+  ctx.globalAlpha=1;
+  // 착지해 쌓인 다섯 개의 빙하 블록
+  widths.forEach((bw,i)=>{
+    const x=cx-bw/2+offsets[i], y=floor-(i+1)*blockH;
+    ctx.fillStyle=i%2===0?'rgba(63,162,255,.18)':'rgba(111,211,255,.22)';
+    ctx.fillRect(x,y,bw,blockH-2);
+    glow(ctx,i===4?C.ice:C.accent,i===4?13:6);
+    ctx.strokeStyle=i===4?C.ice:C.accent2;ctx.lineWidth=1.4;
+    ctx.strokeRect(x+.5,y+.5,bw-1,blockH-3);
+    noGlow(ctx);
+    ctx.fillStyle='rgba(207,227,255,.23)';
+    ctx.fillRect(x+3,y+3,bw-6,2);
+    ctx.beginPath();ctx.moveTo(x+bw*.18,y+5);ctx.lineTo(x+bw*.30,y+blockH*.43);ctx.lineTo(x+bw*.38,y+blockH*.25);ctx.strokeStyle='rgba(207,227,255,.18)';ctx.stroke();
+  });
+  // 떨어뜨리기 직전의 움직이는 블록과 진행 방향
+  const bw=w*.21, bx=cx-bw/2+w*.11, by=floor-6*blockH-h*.055;
+  glow(ctx,C.ice,14);ctx.fillStyle='rgba(207,227,255,.25)';ctx.fillRect(bx,by,bw,blockH-2);
+  ctx.strokeStyle=C.ice;ctx.lineWidth=2;ctx.strokeRect(bx+.5,by+.5,bw-1,blockH-3);noGlow(ctx);
+  ctx.strokeStyle='rgba(111,211,255,.55)';ctx.lineWidth=1;ctx.setLineDash([4,4]);
+  ctx.beginPath();ctx.moveTo(cx,by+blockH);ctx.lineTo(cx,floor-5*blockH);ctx.stroke();ctx.setLineDash([]);
+  // 게임 시스템을 암시하는 작은 UI
+  ctx.font='600 10px "JetBrains Mono", monospace';ctx.textAlign='left';ctx.textBaseline='top';
+  ctx.fillStyle=C.ice;ctx.fillText('PERFECT x2',w*.055,h*.13);
+  ctx.fillStyle=C.dim;ctx.fillText('FEVER',w*.055,h*.78);
+  ctx.fillStyle='rgba(63,162,255,.15)';ctx.fillRect(w*.055,h*.855,w*.20,4);
+  glow(ctx,C.accent2,7);ctx.fillStyle=C.accent2;ctx.fillRect(w*.055,h*.855,w*.14,4);noGlow(ctx);
+  // 북극곰을 추상화한 작은 얼굴 아이콘 (코드로만 그림)
+  const px=cx, py=floor-5*blockH-h*.023, pr=Math.max(5,Math.min(w,h)*.032);
+  ctx.fillStyle=C.ice;
+  ctx.beginPath();ctx.arc(px-pr*.73,py-pr*.7,pr*.38,0,Math.PI*2);ctx.arc(px+pr*.73,py-pr*.7,pr*.38,0,Math.PI*2);ctx.arc(px,py,pr,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle=C.bg;ctx.beginPath();ctx.arc(px-pr*.33,py-pr*.12,pr*.10,0,Math.PI*2);ctx.arc(px+pr*.33,py-pr*.12,pr*.10,0,Math.PI*2);ctx.arc(px,py+pr*.27,pr*.17,0,Math.PI*2);ctx.fill();
+}
+
 /* ---------- thumbnails (static frames of the same scenes) ---------- */
 function drawStatic(cv, scene, seed){
   const {ctx,w,h} = fitCanvas(cv); const r = rng(seed);
@@ -656,6 +694,7 @@ function drawStatic(cv, scene, seed){
   } else if(scene==='duel'){
     const L = duelLayout(w,h);
     L.slots.forEach((s,i)=>{ const filled = r() > .3 || (s.front && s.row===1); drawCard(ctx, s, filled ? {atk:1+Math.floor(r()*6), hp:2+Math.floor(r()*7), ranged:r()>.7, master: s.row===1 && !s.front, ox:0, oy:0} : null, false); });
+  } else if(scene==='tagom'){ drawTagom(ctx,w,h);
   } else if(scene==='dream'){ drawDream(ctx,w,h,1.2);
   } else if(scene==='flow'){
     flowAxes(ctx,w,h);
@@ -674,15 +713,15 @@ const capEl = document.getElementById('scrCap');
 const MODES = [
   {
     tag: 'CH 01 · LOGIC',
-    cap: '좌표 변환과 거리 계산으로 공정한 전장을 설계합니다. 맵을 클릭해 직접 확인해 보세요.'
+    cap: '좌표 변환과 거리 계산으로 공정한 전장을 설계합니다.'
   },
   {
     tag: 'CH 02 · SIMPLICITY',
-    cap: '누르고 있는 동안 장애물이 정지합니다. 타이밍을 맞춰 목표에 도달해 보세요.'
+    cap: '누르고 있는 동안 장애물의 시간이 정지합니다.'
   },
   {
      tag: 'CH 03 · PLAYTEST',
-  cap: '점프 방식을 선택하고 직접 비교해 보세요. 화면 클릭 = 점프'
+  cap: '코요테 타임을 활용한 점프 방식을 선택하고 직접 비교해 보세요.'
   }
 ];
 let mode = 0, modeTime = 0, userPicked = false, lastTap = -99, clock = 0;
@@ -1339,15 +1378,15 @@ document.getElementById('steps').innerHTML = SITE.workflow.map((s,i)=>`<li class
 document.querySelectorAll('[data-count]').forEach(el=>el.textContent = SITE.projects.length);
 document.getElementById('handle').textContent = SITE.instagram.handle;
 document.getElementById('addr').textContent = SITE.email;
-document.getElementById('infoMail').textContent = SITE.email;
 document.getElementById('igLink').href = SITE.instagram.url;
 
 const grid = document.getElementById('grid');
-const info = document.getElementById('info');
 grid.innerHTML = SITE.projects.map((p,i)=>`
   <button class="card" type="button" data-id="${p.id}" data-cat="${p.cat}">
     <span class="thumb"><canvas data-scene="${p.scene}" data-seed="${i+3}"></canvas>${p.live?'<span class="live">DEV</span>':''}<span class="badge">${esc(p.engine.split(' · ')[0])}</span></span>
-    <span class="card-body"><span class="mini-av" aria-hidden="true">하</span><span><span class="ct">${esc(p.title)}</span><span class="meta">${esc(p.status)} · ${esc(p.role)}</span></span></span>
+    
+<span class="card-body"><span class="mini-av" aria-hidden="true">하</span><span><span class="ct">${esc(p.title)}</span><span class="meta">${esc(p.status)}${p.role ? ' · ' + esc(p.role) : ''}</span></span></span>
+
   </button>`).join('');
 function paintThumbs(){ grid.querySelectorAll('canvas').forEach(cv=>{ if(cv.offsetParent) drawStatic(cv, cv.dataset.scene, +cv.dataset.seed); }); }
 new ResizeObserver(paintThumbs).observe(grid);
@@ -1356,12 +1395,10 @@ if(document.fonts) document.fonts.ready.then(paintThumbs);
 const tabs = document.getElementById('tabs');
 function setTab(tab){
   tabs.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected', String(b.dataset.tab===tab)));
-  const about = tab==='about'; grid.hidden = about; info.hidden = !about;
   grid.querySelectorAll('.card').forEach(c=>{ c.hidden = !(tab==='all' || c.dataset.cat===tab); });
   paintThumbs();
 }
 tabs.addEventListener('click', e=>{ const b = e.target.closest('.tab'); if(b) setTab(b.dataset.tab); });
-document.querySelectorAll('[data-tab-link]').forEach(a=>a.addEventListener('click', ()=>setTab(a.dataset.tabLink)));
 
 /* watch modal */
 const watch = document.getElementById('watch'); let lastFocus = null, wAnim = 0;
@@ -1373,8 +1410,8 @@ function openWatch(id){
   document.getElementById('wDesc').textContent = p.desc;
   document.getElementById('wPoints').innerHTML = p.points.map(t=>`<li>${esc(t)}</li>`).join('');
   const logs = SITE.logs.filter(l=>l[0]===id);
-  document.getElementById('wLogTitle').textContent = `개발 로그 ${logs.length}개`;
-  document.getElementById('wLogs').innerHTML = logs.map(l=>`<li class="cmt"><span class="mini-av" aria-hidden="true">하</span><div><b>하성욱</b><span>dev log</span><p>${esc(l[1])}</p></div></li>`).join('') || '<li class="cmt"><span class="mini-av" aria-hidden="true">하</span><div><p>아직 기록이 없어요.</p></div></li>';
+  
+  
   watch.hidden = false; document.documentElement.style.overflow = 'hidden';
   const cv = document.getElementById('wCanvas');
   requestAnimationFrame(()=>{ drawStatic(cv, p.scene, 11); });
