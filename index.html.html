@@ -1,0 +1,1402 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="게임 개발자 하성욱의 포트폴리오">
+<meta name="theme-color" content="#05080F">
+<title>하성욱 포트폴리오</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@500;600;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: arcade screen hero (interactive canvas + 3 channel cards) → workflow → channel-style project wall → watch modal → contact.
+   Deliberately single dark theme: a neon-blue arcade at night. Every color derives from these tokens. */
+:root{
+  color-scheme: dark;
+  --bg:#05080F;
+  --bg-raise:#09101D;
+  --bg-glass:rgba(5,8,15,.84);
+  --surface:#0D1526;
+  --surface-2:#132037;
+  --line:#1C2A44;
+  --line-strong:#2B3F63;
+  --fg:#E8F0FF;
+  --fg-2:#C0CDE8;
+  --muted:#93A3C4;
+  --dim:#7384A6;
+  --accent:#3FA2FF;
+  --accent-2:#6FD3FF;
+  --accent-ink:#041327;
+  --a08:rgba(63,162,255,.08);
+  --a14:rgba(63,162,255,.14);
+  --a30:rgba(63,162,255,.30);
+  --a55:rgba(63,162,255,.55);
+  --violet:#8C7BFF;
+  --ice:#CFE3FF;
+  --warn:#FF6B8A;
+  --scrim:rgba(2,4,9,.8);
+
+  --font-display:"Oxanium","IBM Plex Sans KR",system-ui,sans-serif;
+  --font-body:"IBM Plex Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --maxw:1180px;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--bg)}
+body{margin:0}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{background:var(--bg);color:var(--fg);font:400 15px/1.7 var(--font-body);-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:anywhere}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent-2);outline-offset:3px;border-radius:6px}
+.wrap{width:100%;max-width:calc(var(--maxw) + 32px);margin-inline:auto;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.mono{font-family:var(--font-mono)}
+.eyebrow{font:500 12px/1 var(--font-mono);letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin:0 0 14px}
+.h2{font:700 clamp(26px,3.4vw,40px)/1.3 var(--font-body);letter-spacing:-.01em;margin:0;text-wrap:balance}
+
+/* nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;padding-top:env(safe-area-inset-top,0px);transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+.nav.scrolled{background:var(--bg-glass);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom-color:var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:60px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
+.brand-mark{display:grid;place-items:center;height:30px;padding:0 8px;border-radius:7px;border:1px solid var(--a55);font:600 12px/1 var(--font-mono);color:var(--accent);box-shadow:0 0 12px var(--a14)}
+.brand-name{font-weight:600;font-size:14px;white-space:nowrap}
+.brand-sub{color:var(--dim);font-weight:400}
+.nav-links{display:flex;gap:4px}
+.nav-links a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;text-decoration:none;font-size:14px;color:var(--muted);transition:color .2s}
+.nav-links a:hover{color:var(--fg)}
+@media (max-width:560px){.brand-sub{display:none}.nav-links a{padding:0 8px;font-size:13px}}
+
+/* hero */
+.hero{position:relative;overflow:clip;padding-top:calc(84px + env(safe-area-inset-top,0px));
+  background:radial-gradient(80% 50% at 50% 0%,#0F2140 0%,transparent 72%),var(--bg)}
+.screen-zone{position:relative;--tx:0;--ty:0}
+.screen-wrap{position:relative;max-width:1000px;margin-inline:auto;perspective:1400px}
+.screen-tilt{transform:rotateX(calc(4deg - var(--ty)*1.6deg)) rotateY(calc(var(--tx)*2.4deg));transform-origin:50% 100%;will-change:transform}
+.frame{position:relative;border-radius:18px;padding:6px;background:linear-gradient(180deg,#1A2B4A,#0B1426);
+  box-shadow:0 0 0 1px var(--a30),0 0 40px rgba(63,162,255,.22),0 30px 80px rgba(0,0,0,.6)}
+#screen{display:block;width:100%;aspect-ratio:16/8;max-width:100%;border-radius:13px;background:#030610;cursor:crosshair;touch-action:pan-y}
+.scan{position:absolute;inset:6px;border-radius:13px;pointer-events:none;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.025) 0 1px,transparent 1px 3px)}
+.screen-tag{position:absolute;left:22px;top:18px;display:flex;gap:8px;align-items:center;pointer-events:none;
+  font:500 11px/1 var(--font-mono);letter-spacing:.14em;color:var(--accent-2)}
+.screen-tag i{width:7px;height:7px;border-radius:50%;background:var(--warn);box-shadow:0 0 8px var(--warn)}
+.screen-cap{position:absolute;left:22px;bottom:16px;pointer-events:none;font:400 12px/1.4 var(--font-mono);color:var(--fg-2);text-align:left;max-width:62%}
+.screen-glow{position:absolute;left:12%;right:12%;bottom:-40px;height:80px;pointer-events:none;background:radial-gradient(50% 50% at 50% 50%,var(--a55),transparent 70%);filter:blur(16px);opacity:.7}
+.floor{position:relative;height:clamp(90px,14vw,170px);margin-top:-6px;overflow:hidden;perspective:300px;
+  -webkit-mask-image:linear-gradient(#000 20%,transparent);mask-image:linear-gradient(#000 20%,transparent)}
+.floor::before{content:"";position:absolute;left:-50%;right:-50%;top:0;height:300%;transform:rotateX(62deg);transform-origin:50% 0;
+  background:
+    repeating-linear-gradient(90deg,rgba(63,162,255,.28) 0 1px,transparent 1px 64px),
+    repeating-linear-gradient(0deg,rgba(63,162,255,.22) 0 1px,transparent 1px 48px)}
+@media (prefers-reduced-motion:no-preference){.floor::before{animation:floor 3.2s linear infinite}}
+@keyframes floor{to{background-position:0 0,0 48px}}
+
+.hero-copy{position:relative;text-align:center;margin-top:-40px;padding-bottom:clamp(64px,8vw,104px)}
+.hero-copy h1{font:700 clamp(36px,6.4vw,76px)/1 var(--font-display);text-transform:uppercase;letter-spacing:.02em;margin:0;text-wrap:balance;
+  text-shadow:0 0 22px rgba(63,162,255,.45)}
+.hero-copy h1 em{font-style:normal;color:var(--accent-2)}
+.lede{max-width:44ch;margin:18px auto 0;color:var(--fg-2);font-size:16px;text-wrap:pretty}
+.channels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;max-width:920px;margin:38px auto 0}
+.ch-card{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 16px 24px;border-radius:14px;cursor:pointer;text-align:center;
+  border:1px solid var(--a30);background:linear-gradient(180deg,rgba(17,32,58,.8),rgba(7,12,22,.8));
+  transition:border-color .25s,box-shadow .25s,transform .25s var(--ease)}
+.ch-card:hover{transform:translateY(-2px);border-color:var(--a55)}
+.ch-card[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 0 28px rgba(63,162,255,.32),inset 0 0 24px var(--a08)}
+.ch-top{display:flex;width:100%;justify-content:space-between;align-items:center;font:500 11px/1 var(--font-mono);letter-spacing:.12em;color:var(--dim)}
+.ch-live{width:7px;height:7px;border-radius:50%;background:var(--line-strong);transition:background .25s,box-shadow .25s}
+[aria-pressed="true"] .ch-live{background:var(--accent-2);box-shadow:0 0 8px var(--accent-2)}
+.ch-icon{width:30px;height:30px;color:var(--accent)}
+.ch-big{font:700 26px/1.1 var(--font-display);letter-spacing:.06em;color:var(--accent)}
+.ch-title{font:600 15px/1.4 var(--font-body)}
+.ch-desc{font-size:13px;line-height:1.6;color:var(--muted);text-wrap:pretty}
+.ch-bar{position:absolute;left:16px;right:16px;bottom:10px;height:2px;border-radius:2px;overflow:hidden;background:var(--a14);opacity:0;transition:opacity .3s}
+.ch-bar i{display:block;height:100%;width:0;background:var(--accent-2);box-shadow:0 0 6px var(--accent-2)}
+[aria-pressed="true"] .ch-bar{opacity:1}
+.hint{font-size:12px;color:var(--dim);margin:16px auto 0}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:28px}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 22px;border-radius:12px;font:600 14px/1 var(--font-body);text-decoration:none;cursor:pointer;border:1px solid var(--line-strong);background:none;color:var(--muted);transition:background .2s,color .2s,border-color .2s}
+.btn:hover{color:var(--fg);border-color:var(--muted)}
+.btn svg{width:16px;height:16px}
+.btn-glow{border-color:var(--accent);color:var(--fg);background:var(--a08);box-shadow:0 0 18px rgba(63,162,255,.3),inset 0 0 12px var(--a08)}
+.btn-glow:hover{background:var(--a14);border-color:var(--accent-2)}
+@media (max-width:680px){
+  #screen{aspect-ratio:4/3}
+  .screen-cap{max-width:80%;font-size:11px}
+  .channels{grid-template-columns:minmax(0,1fr);gap:10px}
+  .ch-card{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"icon top" "icon big" "icon title" "icon desc";column-gap:16px;row-gap:2px;text-align:left;align-items:start;padding:14px 16px 20px}
+  .ch-icon{grid-area:icon;align-self:center}
+  .ch-top{grid-area:top}.ch-big{grid-area:big;font-size:20px}.ch-title{grid-area:title}.ch-desc{grid-area:desc}
+}
+
+/* sections */
+.section{padding-block:clamp(64px,9vw,112px);border-top:1px solid var(--line)}
+.sec-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 40px;margin-bottom:36px}
+.sec-head p{margin:0;color:var(--muted);max-width:40ch}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;counter-reset:s}
+.step{position:relative;display:flex;flex-direction:column;gap:8px;padding:18px 16px 16px;border:1px solid var(--line);border-radius:14px;background:var(--bg-raise)}
+.step:not(:last-child)::after{content:"";position:absolute;top:30px;right:-13px;width:14px;height:1px;background:var(--a55)}
+.step-n{font:500 12px/1 var(--font-mono);color:var(--accent)}
+.step h3{margin:0;font-size:17px;font-weight:700}
+.step p{margin:0;font-size:13px;line-height:1.65;color:var(--muted);flex:1}
+.out{align-self:flex-start;font:500 11px/1 var(--font-mono);padding:6px 8px;border-radius:6px;border:1px dashed var(--a55);color:var(--accent-2)}
+@media (max-width:980px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}.step::after{display:none}.step:last-child{grid-column:1 / -1}}
+@media (max-width:520px){.steps{grid-template-columns:minmax(0,1fr)}}
+
+/* channel */
+.banner{position:relative;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;min-height:clamp(120px,16vw,180px);padding:22px 24px;border-radius:16px;overflow:hidden;border:1px solid var(--line);
+  background:linear-gradient(110deg,#0A1730 0%,#0B1B3C 40%,#121A44 100%)}
+.banner::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(63,162,255,.07) 0 1px,transparent 1px 28px);pointer-events:none}
+.banner-tag{position:relative;font:500 11px/1 var(--font-mono);letter-spacing:.16em;color:var(--accent-2)}
+.banner-text{position:relative;font:700 clamp(28px,5vw,56px)/1 var(--font-display);letter-spacing:.04em;color:var(--fg);text-shadow:0 0 24px rgba(63,162,255,.5)}
+.ch-head{display:flex;flex-wrap:wrap;gap:20px 24px;align-items:flex-start;padding:24px 4px 20px}
+.avatar{flex:none;display:grid;place-items:center;width:84px;height:84px;border-radius:50%;font:700 32px/1 var(--font-body);color:var(--accent-ink);background:var(--accent);box-shadow:0 0 0 3px var(--bg),0 0 0 4px var(--a55),0 0 24px var(--a30)}
+.ch-info{flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:8px}
+.ch-name{margin:0;font-size:26px;font-weight:700;line-height:1.2}
+.ch-handle{margin:0;color:var(--muted);font-size:14px}
+.ch-focus{margin:0;color:var(--fg-2);font-size:14px;max-width:60ch}
+.ch-role{margin:0;color:var(--fg);font-size:14px;font-weight:600}
+.ch-profile-details{display:flex;flex-direction:column;gap:8px;margin:3px 0 4px}
+.ch-profile-line{display:flex;align-items:center;gap:10px;color:var(--fg-2);font-size:14px;line-height:1.5}
+.ch-profile-line svg{width:17px;height:17px;flex:none;color:var(--accent-2)}
+.ch-profile-line.education svg{color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:4px 0 0;padding:0}
+.tags li{font-size:12px;padding:5px 10px;border-radius:999px;background:var(--surface);border:1px solid var(--line);color:var(--fg-2)}
+.tabs-row{position:sticky;top:calc(60px + env(safe-area-inset-top,0px));z-index:20;background:var(--bg-glass);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);margin-bottom:24px}
+.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;min-height:46px;padding:0 14px;border:0;background:none;color:var(--muted);font-size:14px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent}
+.tab[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 18px}
+@media (max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.grid{grid-template-columns:minmax(0,1fr)}}
+.card{display:flex;flex-direction:column;gap:12px;padding:0;border:0;background:none;text-align:left;cursor:pointer;min-width:0}
+.thumb{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#030610;border:1px solid var(--line);transition:border-color .25s,box-shadow .25s,transform .25s var(--ease)}
+.thumb canvas{display:block;width:100%;height:100%}
+.card:hover .thumb,.card:focus-visible .thumb{border-color:var(--accent);box-shadow:0 0 22px rgba(63,162,255,.3);transform:translateY(-2px)}
+.badge{position:absolute;right:8px;bottom:8px;font:500 11px/1 var(--font-mono);padding:5px 7px;border-radius:5px;background:rgba(2,4,9,.82);color:var(--fg)}
+.live{position:absolute;left:8px;top:8px;font:600 10px/1 var(--font-mono);letter-spacing:.1em;padding:5px 7px;border-radius:5px;background:var(--accent);color:var(--accent-ink)}
+.card-body{display:grid;grid-template-columns:36px minmax(0,1fr);gap:12px}
+.mini-av{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px;background:var(--surface-2);color:var(--accent);border:1px solid var(--a30)}
+.card .ct{display:block;font-size:16px;line-height:1.4;font-weight:600}
+.card .meta{display:block;margin-top:2px;font-size:13px;color:var(--muted)}
+.info{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+@media (max-width:720px){.info{grid-template-columns:minmax(0,1fr)}}
+.info-box{border:1px solid var(--line);border-radius:14px;background:var(--bg-raise);padding:18px 20px}
+.info-box h3{margin:0 0 12px;font:500 12px/1 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.kv{display:grid;grid-template-columns:96px minmax(0,1fr);gap:8px 14px;margin:0;font-size:14px}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0 0 14px;padding:0}
+.chips li{font-size:13px;padding:6px 10px;border-radius:8px;border:1px solid var(--line-strong);background:var(--surface)}
+.grp{font-size:12px;color:var(--dim);margin:0 0 8px}
+
+/* watch modal */
+.watch{position:fixed;inset:0;z-index:80;display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;background:var(--scrim);
+  padding:calc(24px + env(safe-area-inset-top,0px)) max(16px, env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) max(16px, env(safe-area-inset-left,0px))}
+.watch-in{position:relative;width:100%;max-width:940px;border-radius:18px;border:1px solid var(--line-strong);background:var(--bg-raise);box-shadow:0 0 60px rgba(63,162,255,.18);overflow:hidden}
+.watch .player{position:relative;aspect-ratio:16/9;max-width:100%;background:#030610}
+.watch .player canvas{display:block;width:100%;height:100%}
+.close{position:absolute;right:12px;top:12px;z-index:2;width:44px;height:44px;border-radius:50%;border:1px solid var(--line-strong);background:rgba(2,4,9,.8);display:grid;place-items:center;cursor:pointer}
+.close svg{width:18px;height:18px}
+.watch-body{padding:20px 22px 26px;display:flex;flex-direction:column;gap:18px}
+.watch-body h2{margin:0;font-size:clamp(22px,3vw,28px);line-height:1.3}
+.wmeta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px;color:var(--muted)}
+.pill{font:500 12px/1 var(--font-mono);padding:6px 9px;border-radius:999px;border:1px solid var(--a55);color:var(--accent-2)}
+.desc-box{border-radius:12px;background:var(--surface);padding:14px 16px}
+.desc-box p{margin:0 0 10px;color:var(--fg-2)}
+.desc-box ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.desc-box li::marker{color:var(--accent)}
+.comments h3{margin:0 0 12px;font-size:15px}
+.comments ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.cmt{display:grid;grid-template-columns:32px minmax(0,1fr);gap:12px}
+.cmt .mini-av{width:32px;height:32px;font-size:13px}
+.cmt b{font-size:13px}
+.cmt span{font:400 11px/1 var(--font-mono);color:var(--dim);margin-left:6px}
+.cmt p{margin:2px 0 0;font-size:14px;color:var(--fg-2)}
+
+/* contact */
+.contact-box{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:clamp(24px,4vw,40px);border-radius:18px;border:1px solid var(--a30);
+  background:radial-gradient(70% 120% at 0% 0%,#0F2244 0%,transparent 60%),var(--bg-raise);box-shadow:inset 0 0 40px var(--a08)}
+.contact-box h2{margin:0;max-width:18ch}
+.c-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.addr{font:500 14px/1 var(--font-mono);padding:14px 14px;border-radius:12px;border:1px solid var(--line-strong);user-select:all}
+footer{padding-block:28px 40px;color:var(--dim);font-size:12px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* PLAYTEST 선택 버튼 */
+.play-controls {
+  position: absolute;
+  right: 16px;
+  bottom: 46px;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  justify-content: flex-end;
+}
+
+.play-controls button {
+  padding: 8px 12px;
+  border: 1px solid #2B3F63;
+  border-radius: 7px;
+  background: rgba(5, 8, 15, 0.9);
+  color: #C0CDE8;
+  font: 500 12px "IBM Plex Sans KR", sans-serif;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.play-controls button:hover {
+  border-color: #6FD3FF;
+  color: #fff;
+}
+
+.play-controls .play-mode.active {
+  border-color: #3FA2FF;
+  background: rgba(63, 162, 255, 0.25);
+  color: #6FD3FF;
+  box-shadow: 0 0 12px rgba(63,162,255,.2);
+}
+
+@media (max-width: 560px) {
+  .play-controls {
+    left: 12px;
+    right: 12px;
+    bottom: 36px;
+  }
+
+  .play-controls button {
+    padding: 7px 9px;
+    font-size: 11px;
+  }
+}
+
+</style>
+
+</head>
+<body>
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="맨 위로"><span class="brand-mark">HSW</span><span class="brand-name">하성욱<span class="brand-sub"> · Technical Game Designer</span></span></a>
+    <nav class="nav-links" aria-label="섹션 이동"><a href="#workflow">작업 방식</a><a href="#channel">프로젝트</a><a href="#contact">연락</a></nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" aria-labelledby="heroTitle">
+    <div class="screen-zone" id="zone">
+      <div class="wrap">
+        <div class="screen-wrap">
+          <div class="screen-tilt">
+            <div class="frame">
+              <canvas id="screen" role="img" aria-label="선택한 채널에 맞는 인터랙티브 장면이 나오는 스크린"></canvas>
+
+<div class="play-controls" id="playControls" hidden>
+  <button type="button" class="play-mode active" data-test="0">
+    일반 점프
+  </button>
+  <button type="button" class="play-mode" data-test="1">
+    코요테 타임
+  </button>
+  <button type="button" class="play-retry" id="playRetry">
+    ↻ 다시 시작
+  </button>
+</div>
+
+              <div class="scan" aria-hidden="true"></div>
+              <div class="screen-tag" aria-hidden="true"><i></i><span id="scrTag">CH 01 · LOGIC</span></div>
+              <div class="screen-cap" id="scrCap" aria-live="polite"></div>
+            </div>
+          </div>
+          <div class="screen-glow" aria-hidden="true"></div>
+        </div>
+      </div>
+      <div class="floor" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero-copy wrap">
+      <p class="eyebrow">Game Developer · 하성욱</p>
+      <h1 id="heroTitle">Beyond the Game.<br><em>The Art of Play.</em></h1>
+      <p class="lede">재미를 기획하고, 경험을 설계하는 테크니컬 게임 디자이너입니다.</p>
+      <div class="channels" id="channels" role="group" aria-label="나를 설명하는 세 가지 채널">
+        <button class="ch-card" type="button" data-mode="0" aria-pressed="true">
+          <span class="ch-top"><span>CH 01</span><span class="ch-live"></span></span>
+          <svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18M3 12h18"/><path d="M15 6.5a4 4 0 0 1 2.5 2.5"/></svg>
+          <span class="ch-big">LOGIC</span>
+          <span class="ch-title">직관적인 경험을 만드는 논리</span>
+          <span class="ch-desc">복잡한 계산과 시스템을 설계하되, 플레이어에게는 직관적인 경험을 전달합니다.</span>
+          <span class="ch-bar" aria-hidden="true"><i></i></span>
+        </button>
+        <button class="ch-card" type="button" data-mode="1" aria-pressed="false">
+          <span class="ch-top"><span>CH 02</span><span class="ch-live"></span></span>
+          <svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>
+          <span class="ch-big">SIMPLICITY</span>
+          <span class="ch-title">하나의 규칙, 무한한 가능성</span>
+          <span class="ch-desc">단순한 조작 하나에서 시작해 다양한 상황과 깊이 있는 플레이를 만들어 냅니다.</span>
+          <span class="ch-bar" aria-hidden="true"><i></i></span>
+        </button>
+        <button class="ch-card" type="button" data-mode="2" aria-pressed="false">
+          <span class="ch-top"><span>CH 03</span><span class="ch-live"></span></span>
+          <svg class="ch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 4l12 8-12 8z"/><path d="M3 20h4"/></svg>
+          <span class="ch-big">PLAYTEST</span>
+          <span class="ch-title">작은 차이가 만드는 플레이 경험</span>
+          <span class="ch-desc">직접 플레이하고 비교하며, 작은 설계의 차이가 조작감에 미치는 영향을 검증합니다.</span>
+
+          <span class="ch-bar" aria-hidden="true"><i></i></span>
+        </button>
+      </div>
+      <p class="hint mono">카드를 선택해 저의 게임 디자인 철학을 살펴보세요.</p>
+      <div class="cta-row">
+        <a class="btn btn-glow" href="#channel">프로젝트 보기 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        <a class="btn" href="#channel" data-tab-link="about">정보 · 도구</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="workflow" aria-labelledby="flowTitle">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><p class="eyebrow">Workflow</p><h2 class="h2" id="flowTitle">아이디어가 플레이가 되기까지</h2></div>
+        <p>단순하게 시작하고, 계산으로 다듬고, 손으로 확인합니다.</p>
+      </div>
+      <ol class="steps" id="steps"></ol>
+    </div>
+  </section>
+
+  <section class="section" id="channel" aria-labelledby="chName">
+    <div class="wrap">
+      <div class="banner" aria-hidden="true">
+        <span class="banner-tag">TECHNICAL GAME DESIGNER · <span data-count>0</span> PROJECTS</span>
+        <span class="banner-text">BUILD · PLAY · CREATE</span>
+      </div>
+      <div class="ch-head">
+        <div class="avatar" aria-hidden="true">하</div>
+        <div class="ch-info">
+          <h2 class="ch-name" id="chName">하성욱</h2>
+          <p class="ch-handle"><span id="handle"></span> · 프로젝트 <span data-count>0</span>개</p>
+          <p class="ch-role">Technical Game Designer</p>
+          <div class="ch-profile-details" aria-label="활동 소속 및 학력">
+            <div class="ch-profile-line">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <span>UNIDEV · SNUGDC</span>
+            </div>
+            <div class="ch-profile-line education">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 10 10-6 10 6-10 6-10-6Z"/><path d="M6 12.5V17c3.5 3 8.5 3 12 0v-4.5M22 10v7"/></svg>
+              <span>성결대학교 미디어소프트웨어학과</span>
+            </div>
+          </div>
+          <ul class="tags">
+  <li>게임 디자인</li>
+  <li>시스템 설계</li>
+  <li>게임 연구</li>
+  <li>Unreal Engine 5</li>
+  <li>Unity</li>
+  <li>MapleStory Worlds</li>
+</ul>
+        </div>
+      </div>
+      <div class="tabs-row">
+        <div class="tabs" role="tablist" aria-label="프로젝트 분류" id="tabs">
+          <button class="tab" role="tab" type="button" data-tab="all" aria-selected="true">홈</button>
+          <button class="tab" role="tab" type="button" data-tab="unreal" aria-selected="false">언리얼</button>
+          <button class="tab" role="tab" type="button" data-tab="unity" aria-selected="false">유니티</button>
+          <button class="tab" role="tab" type="button" data-tab="msw" aria-selected="false">MSW</button>
+          <button class="tab" role="tab" type="button" data-tab="research" aria-selected="false">연구 · 도구</button>
+          <button class="tab" role="tab" type="button" data-tab="about" aria-selected="false">정보</button>
+        </div>
+      </div>
+      <div class="grid" id="grid"></div>
+      <div class="info" id="info" hidden>
+        <div class="info-box">
+          <h3>기본 정보</h3>
+          <dl class="kv">
+            <dt>이름</dt><dd>하성욱</dd>
+            <dt>하는 일</dt><dd>게임 개발 · 게임 연구</dd>
+            <dt>연구</dt><dd>게임 장르 트렌드 (교수 공동 연구)</dd>
+            <dt>개발 기록</dt><dd>인스타그램 1인개발 계정</dd>
+            <dt>연락</dt><dd id="infoMail"></dd>
+          </dl>
+        </div>
+        <div class="info-box">
+          <h3>쓰는 도구</h3>
+          <p class="grp">엔진</p>
+          <ul class="chips"><li>Unreal Engine 5 · 블루프린트</li><li>Unity</li><li>MapleStory Worlds · mLua</li></ul>
+          <p class="grp">AI</p>
+          <ul class="chips"><li>Claude</li><li>Unreal MCP</li><li>MSW AI ToolKit</li></ul>
+          <p class="grp">연구</p>
+          <ul class="chips" style="margin-bottom:0"><li>Excel 연구 워크북</li><li>랭킹 데이터 2004–2025</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+<section class="section" id="contact" aria-labelledby="ctTitle">
+  <div class="wrap">
+    <div class="contact-box">
+      <div>
+        <p class="eyebrow">Contact</p>
+        <h2 class="h2" id="ctTitle">
+          새로운 이야기를<br>기다립니다.
+        </h2>
+        <p style="color:var(--muted);margin:12px 0 0;">
+          게임과 관련된 이야기나 협업 제안은<br>
+          인스타그램 DM으로 편하게 연락해 주세요.
+        </p>
+      </div>
+
+      <div class="c-actions">
+        <a class="btn btn-glow" id="igLink" href="#">
+          인스타그램 DM ↗
+        </a>
+        <button class="btn" type="button" id="copy">
+          이메일 복사
+        </button>
+        <span class="addr" id="addr" hidden></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="watch" id="watch" role="dialog" aria-modal="true" aria-labelledby="wTitle" hidden>
+  <div class="watch-in">
+    <button class="close" type="button" id="wClose" aria-label="닫기"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4l10 10M14 4L4 14"/></svg></button>
+    <div class="player"><canvas id="wCanvas" aria-hidden="true"></canvas></div>
+    <div class="watch-body">
+      <div>
+        <h2 id="wTitle"></h2>
+        <div class="wmeta" id="wMeta"></div>
+      </div>
+      <div class="desc-box"><p id="wDesc"></p><ul id="wPoints"></ul></div>
+      <div class="comments"><h3 id="wLogTitle">개발 로그</h3><ol id="wLogs"></ol></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   내용은 여기(SITE)만 고치면 됩니다.
+   프로젝트 추가: projects 배열에 블록 하나 복사 → 글자만 수정
+   ========================================================= */
+const SITE = {
+  email: 'seongwook2202@naver.com',
+  instagram: { handle: '@hakawari_', url: 'https://www.instagram.com/hakawari_/' },
+  workflow: [
+    { title: '핵심 재미 정의', text: '게임의 중심이 되는 재미를 찾고, 이를 전달할 핵심 메커니즘을 정의합니다.', out: '코어 메커니즘' },
+    { title: '플레이 경험 확장', text: '핵심 메커니즘을 바탕으로 다양한 활용 방식과 플레이 가능성을 탐색합니다.', out: '플레이 아이디어' },
+    { title: '시스템 구체화', text: '규칙과 수치, 공간 구조를 설계하여 아이디어를 실제 구현 가능한 형태로 구체화합니다.', out: '시스템 설계' },
+    { title: '프로토타입 구현', text: '설계한 시스템을 직접 구현하고, 실제로 플레이할 수 있는 형태로 제작합니다.', out: '프로토타입' },
+    { title: '플레이 테스트 및 개선', text: '직접 플레이하며 문제점을 발견하고, 반복적인 수정을 통해 완성도를 높입니다.', out: '개선된 빌드' }
+  ],
+  projects: [
+    { id:'stylisharena', cat:'unreal', scene:'arena', live:true, title:'Stylish : Arena', engine:'Unreal Engine 5', status:'개발 중', role:'기획 · 개발',
+      desc:'능력자들이 기동력과 능력으로 싸우는 전투 게임입니다.',
+      points:['기본 달리기는 공통, 이동기는 직업마다 다르게','네 팀이 공정하도록 전장을 90° 회전 대칭으로 재배치','아트 방향: 사암 외벽 · 황동 · 청록 연금술 빛의 도시','Claude와 Unreal MCP로 레벨 작업']},
+
+    { id:'unitygame', cat:'unity', scene:'tagom', title:'빙하타곰', engine:'Unity', status:'완성', role:'개발',
+      desc:'게임을 한두 문장으로 소개해요.',
+      points:['특징 1','특징 2','특징 3']},
+
+    { id:'dream', cat:'msw', scene:'dream', live:true, title:'Lucid Dream', engine:'MapleStory Worlds · mLua', status:'개발중', role:'기획 · 개발',
+      desc:'루시드에게 꿈을 빼앗긴 사람들의 이야기를 담은 2D 횡스크롤 로그라이크입니다.',
+      points:['기능 하나 추가 → 플레이 테스트 → 통과 후 다음 단계','대시 UI 이후 꼬인 프로젝트를 새로 구축','MSW AI ToolKit 스타터 템플릿으로 월드 생성']},
+
+    { id:'research', cat:'research', scene:'flow', title:'게임 장르 트렌드 연구', engine:'연구 · Excel 워크북', status:'논문 작성 중', role:'공동 저자',
+      desc:'Steam 연말 매출 상위 Platinum 게임군의 구성 변화 : 2016~2025년 10개 특성에 대한 탐색적 내용분석',
+      points:['국내 순위의 장르 쏠림이 전체 흐름을 흐리지 않도록 국내 · 글로벌 데이터 분리','게임 60종을 11개 기준(전투 · 조작감, 세계관, 운영력 등)으로 평가','벤치마크 논문 · 게임 카탈로그 · 분석 틀을 워크북 하나로 정리']},
+   
+  ],
+  logs: [
+   
+  ]
+};
+
+(function(){
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const C = { bg:'#030610', fg2:'#C0CDE8', accent:'#3FA2FF', accent2:'#6FD3FF', violet:'#8C7BFF', ice:'#CFE3FF', warn:'#FF6B8A', line:'#1C2A44', dim:'#7384A6' };
+const esc = s => String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function rng(seed){ let s = seed>>>0 || 1; return ()=>((s = (s*1664525 + 1013904223)>>>0) / 4294967296); }
+function fitCanvas(cv){ const d = Math.min(window.devicePixelRatio||1, 2); const r = cv.getBoundingClientRect(); const w = Math.max(1, Math.round(r.width)), h = Math.max(1, Math.round(r.height)); if(cv.width !== Math.round(w*d) || cv.height !== Math.round(h*d)){ cv.width = Math.round(w*d); cv.height = Math.round(h*d); } const ctx = cv.getContext('2d'); ctx.setTransform(d,0,0,d,0,0); return {ctx,w,h}; }
+function glow(ctx, color, blur){ ctx.shadowColor = color; ctx.shadowBlur = blur; }
+function noGlow(ctx){ ctx.shadowBlur = 0; }
+function bgGrid(ctx,w,h,step){
+  ctx.fillStyle = C.bg; ctx.fillRect(0,0,w,h);
+  ctx.strokeStyle = 'rgba(63,162,255,.07)'; ctx.lineWidth = 1; ctx.beginPath();
+  for(let x=step/2;x<w;x+=step){ ctx.moveTo(x,0); ctx.lineTo(x,h); }
+  for(let y=step/2;y<h;y+=step){ ctx.moveTo(0,y); ctx.lineTo(w,y); }
+  ctx.stroke();
+}
+
+/* ---------- scene: STRATA arena (90° rotational symmetry, 4 teams) ---------- */
+const TEAMS = [ {c:C.accent, n:'N'}, {c:C.accent2, n:'E'}, {c:C.violet, n:'S'}, {c:C.ice, n:'W'} ];
+const BLOCKS = [[.18,.08,.16,.07],[.30,.22,.07,.14],[.08,.30,.10,.06],[.40,.06,.06,.12]];
+function arenaGeom(w,h){ const s = Math.min(w,h)*.86; return {cx:w/2, cy:h/2, s}; }
+function rot(x,y,k){ for(let i=0;i<k;i++){ const t=x; x=-y; y=t; } return [x,y]; }
+function drawArenaBase(ctx,g){
+  const {cx,cy,s} = g, r = s/2;
+  ctx.save(); ctx.translate(cx,cy);
+  glow(ctx, C.accent, 14); ctx.strokeStyle = C.accent; ctx.lineWidth = 2;
+  ctx.beginPath(); for(let i=0;i<8;i++){ const a = i*Math.PI/4 + Math.PI/8; const px = Math.cos(a)*r, py = Math.sin(a)*r; i?ctx.lineTo(px,py):ctx.moveTo(px,py); } ctx.closePath(); ctx.stroke();
+  noGlow(ctx);
+  ctx.strokeStyle = 'rgba(63,162,255,.25)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(-r*.92,0); ctx.lineTo(r*.92,0); ctx.moveTo(0,-r*.92); ctx.lineTo(0,r*.92); ctx.stroke();
+  ctx.beginPath(); ctx.arc(0,0,r*.16,0,Math.PI*2); ctx.stroke();
+  for(let k=0;k<4;k++){
+    BLOCKS.forEach(([bx,by,bw,bh])=>{
+      ctx.save(); ctx.rotate(k*Math.PI/2);
+      const x0 = bx*r*1.6 - r*.82, y0 = by*r*1.6 - r*.82;
+      ctx.fillStyle = 'rgba(63,162,255,.10)'; ctx.strokeStyle = 'rgba(111,211,255,.55)';
+      ctx.fillRect(x0,y0,bw*r*1.6,bh*r*1.6); ctx.strokeRect(x0+.5,y0+.5,bw*r*1.6-1,bh*r*1.6-1);
+      ctx.restore();
+    });
+  }
+  ctx.font = '600 11px "JetBrains Mono", monospace'; ctx.textAlign='center'; ctx.textBaseline='middle';
+  TEAMS.forEach((t,i)=>{ const a = -Math.PI/2 + i*Math.PI/2; ctx.fillStyle = t.c; ctx.fillText(t.n, Math.cos(a)*r*1.06, Math.sin(a)*r*1.06); });
+  ctx.restore();
+}
+
+/* ---------- scene: card duel (6 slots per side, 2 cols × 3 rows) ---------- */
+function duelLayout(w,h){
+  const portrait = h > w*.9;
+  const slots = [];
+  const cw = portrait ? Math.min(w*.16, h*.1) : Math.min(w*.1, h*.17);
+  const ch = cw*1.4, gap = cw*.28;
+  for(let side=0; side<2; side++){
+    for(let col=0; col<2; col++){
+      for(let row=0; row<3; row++){
+        let x, y;
+        if(!portrait){
+          const baseX = side===0 ? w*.5 - gap*2.2 - cw*2 - gap : w*.5 + gap*2.2;
+          x = baseX + (side===0 ? col : 1-col)*(cw+gap);
+          y = h*.5 - (ch*1.5 + gap) + row*(ch+gap);
+        } else {
+          const baseY = side===0 ? h*.5 - gap*1.6 - ch*2 - gap : h*.5 + gap*1.6;
+          y = baseY + (side===0 ? col : 1-col)*(ch+gap);
+          x = w*.5 - (cw*1.5 + gap) + row*(cw+gap);
+        }
+        slots.push({side, col, row, x, y, w:cw, h:ch, front: col===1});
+      }
+    }
+  }
+  return {slots, portrait};
+}
+function drawCard(ctx, s, unit, hot){
+  const x = s.x + (unit?unit.ox:0), y = s.y + (unit?unit.oy:0);
+  if(!unit){ ctx.strokeStyle = 'rgba(63,162,255,.22)'; ctx.setLineDash([4,4]); ctx.strokeRect(x+.5,y+.5,s.w-1,s.h-1); ctx.setLineDash([]); return; }
+  const col = s.side===0 ? C.accent : C.violet;
+  glow(ctx, col, hot?18:8);
+  ctx.fillStyle = '#0B1630'; ctx.fillRect(x,y,s.w,s.h);
+  ctx.strokeStyle = hot ? C.accent2 : col; ctx.lineWidth = hot?2:1.4; ctx.strokeRect(x+.5,y+.5,s.w-1,s.h-1);
+  noGlow(ctx);
+  ctx.fillStyle = 'rgba(63,162,255,.14)'; ctx.fillRect(x+4,y+4,s.w-8,s.h*.48);
+  const fs = Math.max(9, s.w*.2);
+  ctx.font = `600 ${fs}px "JetBrains Mono", monospace`; ctx.textBaseline='alphabetic';
+  ctx.fillStyle = C.ice; ctx.textAlign='left'; ctx.fillText(unit.atk, x+4, y+s.h-5);
+  ctx.fillStyle = C.accent2; ctx.textAlign='right'; ctx.fillText(unit.hp, x+s.w-4, y+s.h-5);
+  ctx.textAlign='center'; ctx.fillStyle = unit.master ? C.warn : (unit.ranged ? C.accent2 : C.ice);
+  ctx.font = `700 ${fs*1.1}px "Oxanium", sans-serif`;
+  ctx.fillText(unit.master ? 'M' : (unit.ranged ? '»' : '◆'), x+s.w/2, y+s.h*.36);
+}
+
+/* ---------- scene: dream rings ---------- */
+function drawDream(ctx,w,h,t){
+  const cx = w*.5, cy = h*.52, R = Math.min(w,h)*.3;
+  const m = ctx.createRadialGradient(cx,cy,0,cx,cy,R*1.4); m.addColorStop(0,'rgba(140,123,255,.35)'); m.addColorStop(1,'rgba(140,123,255,0)');
+  ctx.fillStyle = m; ctx.beginPath(); ctx.arc(cx,cy,R*1.4,0,Math.PI*2); ctx.fill();
+  for(let i=0;i<3;i++){
+    glow(ctx, i===1?C.violet:C.accent, 16); ctx.strokeStyle = i===1?C.violet:C.accent; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.ellipse(cx,cy,R*(1-i*.22),R*(1-i*.22)*(.35+.25*Math.sin(t*.7+i)),t*.3*(i%2?-1:1)+i,0,Math.PI*2); ctx.stroke();
+  }
+  noGlow(ctx);
+  ctx.fillStyle = C.ice; glow(ctx, C.ice, 20); ctx.beginPath(); ctx.arc(cx,cy,R*.12*(1+.08*Math.sin(t*2.4)),0,Math.PI*2); ctx.fill(); noGlow(ctx);
+  const gy = h*.86, gw = w*.42;
+  ctx.strokeStyle = 'rgba(140,123,255,.4)'; ctx.strokeRect(cx-gw/2, gy, gw, 8);
+  const fill = .55 + .35*Math.sin(t*.8);
+  glow(ctx, C.violet, 10); ctx.fillStyle = C.violet; ctx.fillRect(cx-gw/2+2, gy+2, (gw-4)*fill, 4); noGlow(ctx);
+  ctx.font = '500 10px "JetBrains Mono", monospace'; ctx.fillStyle = C.dim; ctx.textAlign = 'left'; ctx.fillText('DREAM GAUGE', cx-gw/2, gy-6);
+}
+
+/* ---------- scene: research flow (2004 → 2025, domestic / global split) ---------- */
+function flowAxes(ctx,w,h){
+  const y = h*.86, x0 = w*.08, x1 = w*.92;
+  ctx.strokeStyle = 'rgba(63,162,255,.35)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x0,y); ctx.lineTo(x1,y); ctx.stroke();
+  ctx.font = '500 11px "JetBrains Mono", monospace'; ctx.fillStyle = C.dim; ctx.textAlign='center';
+  [2004,2010,2015,2020,2025].forEach(yr=>{ const x = x0 + (x1-x0)*(yr-2004)/21; ctx.fillRect(x,y-3,1,6); ctx.fillText(yr, x, y+16); });
+  ctx.textAlign='right'; ctx.fillStyle = C.accent2; ctx.fillText('국내', x1, h*.30-12); ctx.fillStyle = C.violet; ctx.fillText('글로벌', x1, h*.62-12);
+}
+function laneY(h, lane, x, w){ const split = Math.min(1, Math.max(0, (x - w*.32)/(w*.3))); const mid = h*.46; const target = lane ? h*.62 : h*.30; return mid + (target-mid)*(split*split*(3-2*split)); }
+
+/* ---------- scene: voice wave ---------- */
+function drawVoice(ctx,w,h,t){
+  const cy = h*.5, n = 48, bw = w*.7/n;
+  for(let i=0;i<n;i++){
+    const a = Math.abs(Math.sin(i*.45 + t*2.2)*Math.sin(i*.13 + t*.7));
+    const bh = 6 + a*h*.42; const x = w*.15 + i*bw;
+    glow(ctx, C.accent, 8); ctx.fillStyle = i%7===0 ? C.accent2 : C.accent; ctx.fillRect(x, cy-bh/2, Math.max(1,bw*.55), bh);
+  }
+  noGlow(ctx);
+  ctx.font = '600 12px "JetBrains Mono", monospace'; ctx.fillStyle = C.ice; ctx.textAlign='center';
+  ctx.fillText('"컴퓨터 절전해줘"  →  PC', w*.5, h*.86);
+}
+
+/* ---------- thumbnails (static frames of the same scenes) ---------- */
+function drawStatic(cv, scene, seed){
+  const {ctx,w,h} = fitCanvas(cv); const r = rng(seed);
+  bgGrid(ctx,w,h,24);
+  if(scene==='arena'){
+    const g = arenaGeom(w,h); drawArenaBase(ctx,g);
+    TEAMS.forEach((tm,i)=>{ for(let j=0;j<2;j++){ const a = -Math.PI/2 + i*Math.PI/2 + (j?.25:-.2); const d = g.s*(.2+r()*.2); glow(ctx,tm.c,12); ctx.fillStyle = tm.c; ctx.beginPath(); ctx.arc(g.cx+Math.cos(a)*d, g.cy+Math.sin(a)*d, 4, 0, Math.PI*2); ctx.fill(); } });
+    noGlow(ctx);
+  } else if(scene==='duel'){
+    const L = duelLayout(w,h);
+    L.slots.forEach((s,i)=>{ const filled = r() > .3 || (s.front && s.row===1); drawCard(ctx, s, filled ? {atk:1+Math.floor(r()*6), hp:2+Math.floor(r()*7), ranged:r()>.7, master: s.row===1 && !s.front, ox:0, oy:0} : null, false); });
+  } else if(scene==='dream'){ drawDream(ctx,w,h,1.2);
+  } else if(scene==='flow'){
+    flowAxes(ctx,w,h);
+    for(let i=0;i<260;i++){ const x = w*.08 + r()*w*.84; const lane = r()>.5?1:0; const y = laneY(h,lane,x,w) + (r()-.5)*h*.16; ctx.fillStyle = lane? C.violet : C.accent2; ctx.globalAlpha = .35 + r()*.6; ctx.fillRect(x,y,2,2); }
+    ctx.globalAlpha = 1;
+  } else if(scene==='voice'){ drawVoice(ctx,w,h,.9); }
+}
+
+/* =========================================================
+   HERO SCREEN — 나라는 개발자를 보여주는 세 채널
+   ========================================================= */
+const screen = document.getElementById('screen');
+const zone = document.getElementById('zone');
+const tagEl = document.getElementById('scrTag');
+const capEl = document.getElementById('scrCap');
+const MODES = [
+  {
+    tag: 'CH 01 · LOGIC',
+    cap: '좌표 변환과 거리 계산으로 공정한 전장을 설계합니다. 맵을 클릭해 직접 확인해 보세요.'
+  },
+  {
+    tag: 'CH 02 · SIMPLICITY',
+    cap: '누르고 있는 동안 장애물이 정지합니다. 타이밍을 맞춰 목표에 도달해 보세요.'
+  },
+  {
+     tag: 'CH 03 · PLAYTEST',
+  cap: '점프 방식을 선택하고 직접 비교해 보세요. 화면 클릭 = 점프'
+  }
+];
+let mode = 0, modeTime = 0, userPicked = false, lastTap = -99, clock = 0;
+let SW = 0, SH = 0;
+function hudText(ctx, lines, x, y, align){
+  ctx.font = '500 11px "JetBrains Mono", monospace'; ctx.textAlign = align || 'right'; ctx.textBaseline = 'top';
+  lines.forEach((l,i)=>{ ctx.fillStyle = l[1] || C.dim; ctx.fillText(l[0], x, y + i*16); });
+}
+function floatsDraw(ctx, list, dt){
+  ctx.font = '600 12px "IBM Plex Sans KR", sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+  for(let i=list.length-1;i>=0;i--){ const f = list[i]; f.t += dt; if(f.t > 1.4){ list.splice(i,1); continue; }
+    ctx.globalAlpha = Math.min(1, 1.6 - f.t); glow(ctx, f.c, 10); ctx.fillStyle = f.c; ctx.fillText(f.txt, f.x, f.y - f.t*22); noGlow(ctx); ctx.globalAlpha = 1; }
+}
+
+
+
+
+/* ---------- SIMPLICITY : TIME STOP ---------- */
+let F = null;
+function initFreeze(w, h) {
+  F = {
+    x: 0, speed: w * 0.14, hold: false, state: 'run', timer: 0, runTime: 0,
+    gates: [
+      { x: w * 0.68, phase: 0, speed: 2.4 },
+      { x: w * 1.14, phase: 1.8, speed: 3.1 }
+    ],
+    goal: w * 1.46
+  };
+}
+function startFreeze() {
+  if (mode === 1 && F && F.state === 'run') {
+    F.hold = true;
+    userPicked = true;
+  }
+}
+function stopFreeze() {
+  if (F) F.hold = false;
+}
+function gateHeight(g, h) {
+  const wave = (Math.sin(g.phase) + 1) / 2;
+  return h * (0.012 + wave * 0.27);
+}
+function stepFreeze(dt, w, h) {
+  if (!F) return;
+  if (F.state !== 'run') {
+    F.timer += dt;
+    if (F.timer > 2) initFreeze(w, h);
+    return;
+  }
+  F.runTime += dt;
+  F.x += F.speed * dt;
+  if (!F.hold) F.gates.forEach(g => { g.phase += g.speed * dt; });
+  const px = w * 0.22, size = Math.min(w, h) * 0.065;
+  const gateWidth = Math.max(10, w * 0.014);
+  for (const g of F.gates) {
+    const gx = g.x - F.x;
+    if (gx < px + size / 2 && gx + gateWidth > px - size / 2 && gateHeight(g, h) > size * 0.55) {
+      F.state = 'fail'; F.timer = 0; F.hold = false;
+      return;
+    }
+  }
+  if (F.x >= F.goal - px) {
+    F.state = 'success'; F.timer = 0; F.hold = false;
+  }
+}
+function drawFreeze(ctx, w, h, dt) {
+  bgGrid(ctx, w, h, 28);
+  if (!F) return;
+  const gy = h * 0.76, px = w * 0.22, size = Math.min(w, h) * 0.065;
+  if (F.hold) {
+    ctx.fillStyle = 'rgba(111,211,255,.09)'; ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = 'rgba(207,227,255,.35)'; ctx.lineWidth = 2;
+    ctx.strokeRect(4, 4, w - 8, h - 8);
+  }
+  glow(ctx, C.accent, 8);
+  ctx.strokeStyle = C.accent; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(w, gy); ctx.stroke(); noGlow(ctx);
+  ctx.strokeStyle = 'rgba(63,162,255,.23)'; ctx.lineWidth = 1;
+  const ofs = ((F.x % 40) + 40) % 40;
+  for (let x = -ofs; x < w; x += 40) {
+    ctx.beginPath(); ctx.moveTo(x, gy + 7); ctx.lineTo(x - 12, gy + 18); ctx.stroke();
+  }
+  F.gates.forEach((g, i) => {
+    const gx = g.x - F.x, gh = gateHeight(g, h), gw = Math.max(10, w * 0.014);
+    if (gx < -30 || gx > w + 30) return;
+    const color = F.hold ? C.ice : C.violet;
+    glow(ctx, color, F.hold ? 22 : 12);
+    ctx.fillStyle = F.hold ? 'rgba(207,227,255,.65)' : 'rgba(140,123,255,.65)';
+    ctx.fillRect(gx, gy - gh, gw, gh); noGlow(ctx);
+    ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.strokeRect(gx, gy - gh, gw, gh);
+    ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+    ctx.font = '500 10px "JetBrains Mono",monospace'; ctx.fillStyle = C.fg2;
+    ctx.fillText('GATE ' + (i + 1), gx + gw / 2, gy - gh - 12);
+  });
+  const goalX = F.goal - F.x;
+  if (goalX >= 0 && goalX <= w) {
+    ctx.strokeStyle = C.accent2; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(goalX, gy); ctx.lineTo(goalX, gy - 48); ctx.stroke();
+    ctx.fillStyle = C.accent2;
+    ctx.beginPath(); ctx.moveTo(goalX, gy - 48); ctx.lineTo(goalX + 26, gy - 39);
+    ctx.lineTo(goalX, gy - 30); ctx.fill();
+  }
+  const py = gy - size;
+  glow(ctx, C.accent2, 16);
+  ctx.fillStyle = F.state === 'fail' ? C.warn : C.accent2;
+  ctx.fillRect(px - size / 2, py, size, size); noGlow(ctx);
+  ctx.fillStyle = C.bg; ctx.fillRect(px + size * .08, py + size * .24, size * .15, size * .2);
+  if (F.state === 'run') {
+    const leg = Math.sin(F.runTime * 18) * size * .2;
+    ctx.strokeStyle = C.accent2; ctx.lineWidth = 2; ctx.beginPath();
+    ctx.moveTo(px - size * .2, gy); ctx.lineTo(px - size * .2 + leg, gy + 6);
+    ctx.moveTo(px + size * .2, gy); ctx.lineTo(px + size * .2 - leg, gy + 6); ctx.stroke();
+  }
+  ctx.textAlign = 'right'; ctx.textBaseline = 'top';
+  ctx.font = '600 13px "JetBrains Mono",monospace';
+  ctx.fillStyle = F.hold ? C.ice : C.accent2;
+  ctx.fillText(F.hold ? 'TIME FROZEN' : 'TIME RUNNING', w - 18, 22);
+  ctx.font = '500 11px "IBM Plex Sans KR",sans-serif'; ctx.fillStyle = C.fg2;
+  ctx.fillText('누르고 있기 = 시간 정지', w - 18, 44);
+  const progress = Math.max(0, Math.min(1, F.x / (F.goal - px)));
+  ctx.fillStyle = 'rgba(63,162,255,.2)'; ctx.fillRect(w * .3, h - 23, w * .4, 4);
+  ctx.fillStyle = C.accent2; ctx.fillRect(w * .3, h - 23, w * .4 * progress, 4);
+  if (F.state !== 'run') {
+    ctx.fillStyle = 'rgba(3,6,16,.72)'; ctx.fillRect(0, h * .26, w, h * .32);
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    const color = F.state === 'success' ? C.accent2 : C.warn;
+    ctx.font = '700 27px "Oxanium",sans-serif'; glow(ctx, color, 20);
+    ctx.fillStyle = color;
+    ctx.fillText(F.state === 'success' ? 'GOAL CLEAR' : 'RETRY', w / 2, h * .39); noGlow(ctx);
+    ctx.font = '500 12px "IBM Plex Sans KR",sans-serif'; ctx.fillStyle = C.fg2;
+    ctx.fillText('잠시 후 다시 시작합니다', w / 2, h * .49);
+  }
+}
+function tapFreeze(x, y) {
+  // 클릭 자체는 사용하지 않고, 누르는 동안만 시간을 멈춥니다.
+}
+
+/* ---------- CH 02 · MATH : 감 → 계산 ---------- */
+let M = null;
+const SPAWNS = [[0,-.9],[.9,0],[0,.9],[-.9,0]];
+function mGeom(w,h){
+  if(w/h >= 1.5){ const s = Math.min(h*.8, w*.48); return {s, cx:w*.34, cy:h*.52, wide:true}; }
+  const s = Math.min(w*.7, h*.6); return {s, cx:w*.5, cy:h*.42, wide:false};
+}
+function rotK(u,v,k){ for(let i=0;i<k;i++){ const t=u; u=-v; v=t; } return [u,v]; }
+function symTargets(base){ const out=[]; for(let k=0;k<4;k++) base.forEach(b=>{ const [u,v]=rotK(b.u,b.v,k); out.push({u,v,bw:k%2?b.bh:b.bw, bh:k%2?b.bw:b.bh}); }); return out; }
+function randBase(){ const b=[]; for(let i=0;i<3;i++) b.push({u:-.68+Math.random()*.5, v:-.68+Math.random()*.5, bw:.12+Math.random()*.1, bh:.08+Math.random()*.08}); return b; }
+function initMath(){ M = {phase:'rand', t:0, blds:[], trace:null}; newRound(); }
+function newRound(){
+  M.base = randBase(); M.phase = 'rand'; M.t = 0;
+  const sym = symTargets(M.base);
+  M.blds = sym.map((s,i)=>{ const prev = M.blds[i]; const ru = (Math.random()*1.5-.75), rv = (Math.random()*1.5-.75);
+    return {u:prev?prev.u:ru, v:prev?prev.v:rv, bw:prev?prev.bw:s.bw, bh:prev?prev.bh:s.bh, tu:ru, tv:rv, tbw:.1+Math.random()*.12, tbh:.08+Math.random()*.1, su:s.u, sv:s.v, sbw:s.bw, sbh:s.bh}; });
+}
+function stepMath(dt){
+  M.t += dt; const k = 1 - Math.pow(.004, dt);
+  const userMode = clock - lastTap < 9 && M.phase === 'user';
+  if(!userMode){
+    if(M.phase==='user'){ M.blds = M.blds.slice(0,12); newRound(); }
+    if(M.phase==='rand' && M.t > 3){ M.phase='apply'; M.t=0; M.blds.forEach(b=>{ b.tu=b.su; b.tv=b.sv; b.tbw=b.sbw; b.tbh=b.sbh; }); }
+    else if(M.phase==='apply' && M.t > 4){ newRound(); }
+  }
+  M.blds.forEach(b=>{ b.u += (b.tu-b.u)*k; b.v += (b.tv-b.v)*k; b.bw += (b.tbw-b.bw)*k; b.bh += (b.tbh-b.bh)*k; });
+  if(M.trace){ M.trace.t += dt; if(M.trace.t > 1.4) M.trace = null; }
+}
+function coverDist(){ return SPAWNS.map(([su,sv])=>{ let m = 9; M.blds.forEach(b=>{ const d = Math.hypot(b.u-su, b.v-sv); if(d<m) m=d; }); return m*100; }); }
+function drawMath(ctx,w,h){
+  bgGrid(ctx,w,h,28);
+  const G = mGeom(w,h), half = G.s/2, P = (u,v)=>[G.cx+u*half, G.cy+v*half];
+  glow(ctx, C.accent, 12); ctx.strokeStyle = C.accent; ctx.lineWidth = 1.6; ctx.strokeRect(G.cx-half, G.cy-half, G.s, G.s); noGlow(ctx);
+  ctx.strokeStyle = 'rgba(63,162,255,.18)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(G.cx-half,G.cy); ctx.lineTo(G.cx+half,G.cy); ctx.moveTo(G.cx,G.cy-half); ctx.lineTo(G.cx,G.cy+half); ctx.stroke();
+  const sym = M.phase !== 'rand';
+  const dists = coverDist();
+  SPAWNS.forEach(([su,sv],i)=>{
+    let nb = null, m = 9; M.blds.forEach(b=>{ const d=Math.hypot(b.u-su,b.v-sv); if(d<m){m=d;nb=b;} });
+    if(nb){ const [x1,y1]=P(su,sv), [x2,y2]=P(nb.u,nb.v); ctx.strokeStyle = TEAMS[i].c; ctx.globalAlpha=.45; ctx.setLineDash([3,4]); ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha=1; }
+  });
+  M.blds.forEach(b=>{ const [x,y] = P(b.u,b.v); const bw=b.bw*half, bh=b.bh*half;
+    ctx.fillStyle = sym ? 'rgba(111,211,255,.16)' : 'rgba(255,107,138,.12)'; ctx.fillRect(x-bw/2,y-bh/2,bw,bh);
+    ctx.strokeStyle = sym ? C.accent2 : 'rgba(255,107,138,.7)'; ctx.lineWidth = 1.2; ctx.strokeRect(x-bw/2+.5,y-bh/2+.5,bw-1,bh-1); });
+  SPAWNS.forEach(([su,sv],i)=>{ const [x,y]=P(su,sv); glow(ctx,TEAMS[i].c,12); ctx.fillStyle=TEAMS[i].c; ctx.beginPath(); ctx.arc(x,y,6,0,Math.PI*2); ctx.fill(); noGlow(ctx);
+    ctx.font='600 10px "JetBrains Mono", monospace'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillStyle=C.bg; ctx.fillText(TEAMS[i].n,x,y+.5); });
+  if(M.trace){ const t = M.trace, R = Math.hypot(t.u,t.v)*half, a0 = Math.atan2(t.v,t.u);
+    ctx.strokeStyle = C.ice; ctx.globalAlpha = Math.max(0,1-t.t/1.4); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(G.cx,G.cy,R,a0,a0+Math.min(1,t.t/.8)*Math.PI*1.5); ctx.stroke(); ctx.globalAlpha = 1; }
+  ctx.font = '600 13px "JetBrains Mono", monospace'; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+  if(sym){ glow(ctx,C.accent2,10); ctx.fillStyle = C.accent2; ctx.fillText('(x, y) → (−y, x)', G.cx, G.cy-half-10); noGlow(ctx); }
+  else { ctx.fillStyle = C.warn; ctx.fillText('감으로 배치', G.cx, G.cy-half-10); }
+  const dev = Math.max(...dists) - Math.min(...dists), mx = Math.max(...dists, 1);
+  if(G.wide){
+    const x0 = w*.66, bwid = w*.26; let y = h*.24;
+    hudText(ctx, [['팀별 엄폐까지 거리', C.fg2]], x0, y, 'left'); y += 26;
+    dists.forEach((d,i)=>{ ctx.fillStyle = 'rgba(63,162,255,.12)'; ctx.fillRect(x0+18, y, bwid, 10); glow(ctx,TEAMS[i].c,8); ctx.fillStyle = TEAMS[i].c; ctx.fillRect(x0+18, y, bwid*d/mx, 10); noGlow(ctx);
+      hudText(ctx, [[TEAMS[i].n, TEAMS[i].c]], x0, y-3, 'left'); hudText(ctx, [[d.toFixed(1)]], x0+18+bwid, y+13, 'right'); y += 34; });
+    ctx.font = '700 22px "Oxanium", sans-serif'; ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+    const ok = dev < 1; glow(ctx, ok?C.accent2:C.warn, 12); ctx.fillStyle = ok?C.accent2:C.warn; ctx.fillText('편차 '+dev.toFixed(1)+(ok?'  → 공정':''), x0, y+22); noGlow(ctx);
+  } else {
+    const y0 = h*.82, colw = w*.8/4, x0 = w*.1;
+    dists.forEach((d,i)=>{ const x = x0 + i*colw; ctx.fillStyle='rgba(63,162,255,.12)'; ctx.fillRect(x+4, y0, colw-14, 6); ctx.fillStyle=TEAMS[i].c; ctx.fillRect(x+4, y0, (colw-14)*d/mx, 6); hudText(ctx, [[TEAMS[i].n+' '+d.toFixed(0), TEAMS[i].c]], x+4, y0+10, 'left'); });
+    const ok = dev < 1; ctx.font='700 14px "Oxanium", sans-serif'; ctx.textAlign='center'; ctx.textBaseline='alphabetic'; ctx.fillStyle = ok?C.accent2:C.warn; ctx.fillText('편차 '+dev.toFixed(1)+(ok?' → 공정':''), w/2, y0-10);
+  }
+}
+function tapMath(x,y){
+  const G = mGeom(SW,SH), half = G.s/2, u = (x-G.cx)/half, v = (y-G.cy)/half;
+  if(Math.abs(u) > .95 || Math.abs(v) > .95) return;
+  if(M.phase !== 'user'){ M.phase = 'user'; M.blds.forEach(b=>{ b.tu=b.su; b.tv=b.sv; b.tbw=b.sbw; b.tbh=b.sbh; }); }
+  const base = {u, v, bw:.13, bh:.09};
+  symTargets([base]).forEach((s,k)=>{ const [ou,ov] = rotK(u,v,0); M.blds.push({u:ou, v:ov, bw:.02, bh:.02, tu:s.u, tv:s.v, tbw:s.bw, tbh:s.bh, su:s.u, sv:s.v, sbw:s.bw, sbh:s.bh}); });
+  if(M.blds.length > 36) M.blds.splice(12, 4);
+  M.trace = {u, v, t:0};
+}
+
+/* ---------- CH 03 · PLAYTEST : 하나씩 넣고 직접 확인 ---------- */
+
+/* ---------- CH 03 · PLAYTEST : 코요테 타임 ---------- */
+
+let P = null;
+
+function pGeom(w, h) {
+  return {
+    px: w * 0.28,
+    gy: h * 0.71,
+    cs: Math.min(w, h) * 0.065,
+    speed: w * 0.24,
+    gap: w * 0.18,
+    gravity: h * 3.1,
+    jump: h * 1.35,
+    coyote: 0.14
+  };
+}
+
+function initPlay(w, h) {
+  P = {
+    test: 0,
+    edge: 0,
+    y: 0,
+    vy: 0,
+    grounded: true,
+    lastGround: 0,
+    state: 'run',
+    stateT: 0,
+    jumped: false,
+    result: ['', ''],
+    floats: []
+  };
+  resetCoyote(w);
+}
+
+function resetCoyote(w) {
+  P.edge = w * 0.78;
+  P.y = 0;
+  P.vy = 0;
+  P.grounded = true;
+  P.lastGround = clock;
+  P.state = 'run';
+  P.stateT = 0;
+  P.jumped = false;
+  P.floats = [];
+}
+
+function advanceCoyote(w) {
+  resetCoyote(w);
+}
+
+function act() {
+  if (P.state !== 'run') {
+    if (P.stateT > 0.25) advanceCoyote(SW);
+    return;
+  }
+
+  if (P.jumped) return;
+
+  const G = pGeom(SW, SH);
+  const enabled = P.test === 1;
+
+  const canJump = P.grounded ||
+    (enabled && clock - P.lastGround <= G.coyote);
+
+  if (canJump) {
+    P.vy = G.jump;
+    P.y = Math.max(0, P.y);
+    P.grounded = false;
+    P.jumped = true;
+
+    P.floats.push({
+      x: G.px,
+      y: G.gy - G.cs - 18,
+      txt: 'JUMP',
+      c: C.accent2,
+      t: 0
+    });
+  } else {
+    P.floats.push({
+      x: G.px,
+      y: G.gy - G.cs - 18,
+      txt: '점프 입력 무시',
+      c: C.warn,
+      t: 0
+    });
+  }
+}
+
+function stepPlay(dt, w, h) {
+  const G = pGeom(w, h);
+
+  if (P.state !== 'run') {
+    P.stateT += dt;
+
+    if (P.stateT > 2.1) {
+      advanceCoyote(w);
+    }
+    return;
+  }
+
+  P.edge -= G.speed * dt;
+
+  const right = P.edge + G.gap;
+  const onPlatform = G.px <= P.edge || G.px >= right;
+
+  if (P.grounded && !onPlatform) {
+    P.grounded = false;
+    P.lastGround = clock;
+  }
+
+  if (!P.grounded) {
+    const prevY = P.y;
+
+    P.vy -= G.gravity * dt;
+    P.y += P.vy * dt;
+
+    if (
+      G.px >= right &&
+      P.vy <= 0 &&
+      prevY >= 0 &&
+      P.y <= 0
+    ) {
+      P.y = 0;
+      P.vy = 0;
+      P.grounded = true;
+      P.lastGround = clock;
+    }
+  }
+
+  if (P.grounded && G.px >= right) {
+    P.state = 'success';
+    P.stateT = 0;
+    P.result[P.test] = '성공';
+  } else if (P.y < -h * 0.28) {
+    P.state = 'fail';
+    P.stateT = 0;
+    P.result[P.test] = '실패';
+  }
+}
+
+function drawPlay(ctx, w, h, dt) {
+  bgGrid(ctx, w, h, 28);
+
+  const G = pGeom(w, h);
+  const right = P.edge + G.gap;
+
+  const testName = P.test === 0
+    ? 'TEST A · 일반 점프'
+    : 'TEST B · 코요테 타임';
+
+  function platform(x1, x2) {
+    if (x2 <= x1) return;
+
+    glow(ctx, C.accent, 9);
+    ctx.strokeStyle = C.accent;
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+    ctx.moveTo(x1, G.gy);
+    ctx.lineTo(x2, G.gy);
+    ctx.stroke();
+    noGlow(ctx);
+
+    ctx.fillStyle = 'rgba(63,162,255,.07)';
+    ctx.fillRect(x1, G.gy, x2 - x1, h - G.gy);
+  }
+
+  platform(0, Math.max(0, Math.min(w, P.edge)));
+  platform(Math.max(0, Math.min(w, right)), w);
+
+  ctx.fillStyle = 'rgba(255,107,138,.10)';
+  ctx.fillRect(
+    Math.max(0, P.edge),
+    G.gy,
+    Math.max(0, Math.min(w, right) - Math.max(0, P.edge)),
+    h - G.gy
+  );
+
+  const cy = G.gy - G.cs - P.y;
+  const falling = P.state === 'fail';
+
+  glow(ctx, falling ? C.warn : C.accent2, 12);
+  ctx.fillStyle = falling ? C.warn : C.accent2;
+
+  ctx.fillRect(
+    G.px - G.cs / 2,
+    cy,
+    G.cs,
+    G.cs
+  );
+
+  noGlow(ctx);
+
+  // 캐릭터 눈
+  ctx.fillStyle = C.bg;
+  ctx.fillRect(
+    G.px + G.cs * 0.07,
+    cy + G.cs * 0.2,
+    G.cs * 0.16,
+    G.cs * 0.16
+  );
+
+  // 안내 UI
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'top';
+
+  ctx.font = '700 13px "JetBrains Mono", monospace';
+  ctx.fillStyle = C.ice;
+  ctx.fillText(testName, 18, 55);
+
+  ctx.font = '500 11px "IBM Plex Sans KR", sans-serif';
+  ctx.fillStyle = C.fg2;
+
+  
+ctx.fillText(
+  P.test === 0
+    ? '발판을 벗어나면 점프 불가'
+    : '발판을 벗어난 후 0.14초까지 점프 가능',
+  18, 78
+);
+
+ctx.fillText('화면 클릭 = 점프', 18, 97);
+
+
+  const remaining = Math.max(
+    0,
+    G.coyote - (clock - P.lastGround)
+  );
+
+  if (
+    P.test === 1 &&
+    !P.grounded &&
+    !P.jumped &&
+    remaining > 0
+  ) {
+    ctx.fillStyle = C.accent2;
+    ctx.fillText(
+      'COYOTE WINDOW ' +
+      (remaining * 1000).toFixed(0) + 'ms',
+      18, 116
+    );
+  }
+
+  ctx.textAlign = 'right';
+  ctx.font = '500 11px "JetBrains Mono", monospace';
+
+  ctx.fillStyle = P.test === 0 ? C.accent2 : C.fg2;
+  ctx.fillText('A ' + (P.result[0] || '대기'), w - 18, 18);
+
+  ctx.fillStyle = P.test === 1 ? C.accent2 : C.fg2;
+  ctx.fillText('B ' + (P.result[1] || '대기'), w - 18, 36);
+
+  if (P.state !== 'run') {
+    const success = P.state === 'success';
+
+    ctx.font = '700 26px "Oxanium", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    glow(ctx, success ? C.accent2 : C.warn, 15);
+
+    ctx.fillStyle = success ? C.accent2 : C.warn;
+    ctx.fillText(
+      success ? 'LANDING OK' : 'FALL · RETRY',
+      w / 2,
+      h * 0.38
+    );
+
+    noGlow(ctx);
+
+    ctx.font = '500 12px "IBM Plex Sans KR", sans-serif';
+    ctx.fillStyle = C.fg2;
+
+    ctx.fillText(
+      '잠시 후 다음 테스트 · 클릭하면 바로 전환',
+      w / 2,
+      h * 0.46
+    );
+  }
+
+  floatsDraw(ctx, P.floats, dt);
+}
+
+
+/* PLAYTEST 버튼 조작 */
+
+const playControls = document.getElementById('playControls');
+
+function selectPlayTest(test) {
+  P.test = test;
+  resetCoyote(SW);
+
+  document.querySelectorAll('.play-mode').forEach(btn => {
+    btn.classList.toggle(
+      'active',
+      Number(btn.dataset.test) === test
+    );
+  });
+}
+
+document.querySelectorAll('.play-mode').forEach(btn => {
+  btn.addEventListener('click', () => {
+    selectPlayTest(Number(btn.dataset.test));
+  });
+});
+
+document.getElementById('playRetry').addEventListener('click', () => {
+  resetCoyote(SW);
+});
+
+
+/* ---------- 공통 ---------- */
+
+function resetScene() {
+  const f = fitCanvas(screen);
+  SW = f.w;
+  SH = f.h;
+  initFreeze(SW, SH);
+  initMath();
+  initPlay(SW, SH);
+}
+
+
+function setMode(m, byUser) {
+  stopFreeze();
+  mode = m;
+  modeTime = 0;
+
+
+  if (byUser) userPicked = true;
+
+  document.querySelectorAll('.ch-card').forEach(b => {
+    b.setAttribute(
+      'aria-pressed',
+      String(+b.dataset.mode === m)
+    );
+  });
+
+  tagEl.textContent = MODES[m].tag;
+  capEl.textContent = MODES[m].cap;
+
+  // PLAYTEST에서만 버튼 표시
+  playControls.hidden = m !== 2;
+
+  if (m === 2) {
+    selectPlayTest(P.test);
+  }
+
+  if (reduce) drawFrame(0);
+}
+
+document.getElementById('channels').addEventListener('click', e => {
+  const b = e.target.closest('.ch-card');
+
+  if (b) {
+    setMode(+b.dataset.mode, true);
+  }
+});
+
+function localXY(e) {
+  const r = screen.getBoundingClientRect();
+
+  return {
+    x: (e.clientX - r.left) * (SW / r.width),
+    y: (e.clientY - r.top) * (SH / r.height)
+  };
+}
+
+screen.addEventListener('click', e => {
+  const p = localXY(e);
+
+  userPicked = true;
+  lastTap = clock;
+
+  if (mode === 0) {
+    tapMath(p.x, p.y);
+  } else if (mode === 1) {
+    tapFreeze(p.x, p.y);
+  } else {
+    act();
+  }
+
+  if (reduce) drawFrame(0);
+});
+
+// SIMPLICITY: 화면을 누르고 있는 동안 시간 정지
+screen.addEventListener('pointerdown', e => {
+  if (mode !== 1) return;
+  screen.setPointerCapture(e.pointerId);
+  startFreeze();
+});
+window.addEventListener('pointerup', stopFreeze);
+screen.addEventListener('pointercancel', stopFreeze);
+window.addEventListener('blur', stopFreeze);
+
+zone.addEventListener('pointermove', e => {
+  if (reduce || e.pointerType !== 'mouse') return;
+
+  const r = zone.getBoundingClientRect();
+
+  zone.style.setProperty(
+    '--tx',
+    ((e.clientX - r.left) / r.width - .5).toFixed(3)
+  );
+
+  zone.style.setProperty(
+    '--ty',
+    ((e.clientY - r.top) / r.height - .5).toFixed(3)
+  );
+});
+
+function drawFrame(dt){
+  const ctx = screen.getContext('2d'), w = SW, h = SH;
+  if(mode===0){ if(dt) stepMath(dt); drawMath(ctx,w,h); }
+  else if(mode===1){ if(dt) stepFreeze(dt,w,h); drawFreeze(ctx,w,h,dt); }
+  else { if(dt) stepPlay(dt,w,h); drawPlay(ctx,w,h,dt); }
+}
+let last = performance.now(), visible = true;
+new IntersectionObserver(es=>{ visible = es[0].isIntersecting; }).observe(screen);
+function loop(now){
+  requestAnimationFrame(loop);
+  const dt = Math.min(.05,(now-last)/1000); last = now;
+  if(!visible || document.hidden) return;
+  clock += dt; modeTime += dt;
+  const DUR = 12;
+  if(!userPicked){ const bar = document.querySelector('.ch-card[aria-pressed="true"] .ch-bar i'); if(bar) bar.style.width = Math.min(100, modeTime/DUR*100)+'%'; if(modeTime > DUR) setMode((mode+1)%3, false); }
+  else document.querySelectorAll('.ch-bar i').forEach(i=>i.style.width='0');
+  drawFrame(dt);
+}
+new ResizeObserver(()=>{ resetScene(); if(reduce) drawFrame(0); }).observe(screen);
+resetScene(); setMode(0,false);
+if(reduce){
+  for(let i=0;i<120;i++){ clock += 1/30; stepFreeze(1/30,SW,SH); }
+  drawFrame(0);
+} else { requestAnimationFrame(loop); }
+
+/* =========================================================
+   PAGE CONTENT
+   ========================================================= */
+document.getElementById('steps').innerHTML = SITE.workflow.map((s,i)=>`<li class="step"><span class="step-n">0${i+1}</span><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p><span class="out">${esc(s.out)}</span></li>`).join('');
+document.querySelectorAll('[data-count]').forEach(el=>el.textContent = SITE.projects.length);
+document.getElementById('handle').textContent = SITE.instagram.handle;
+document.getElementById('addr').textContent = SITE.email;
+document.getElementById('infoMail').textContent = SITE.email;
+document.getElementById('igLink').href = SITE.instagram.url;
+
+const grid = document.getElementById('grid');
+const info = document.getElementById('info');
+grid.innerHTML = SITE.projects.map((p,i)=>`
+  <button class="card" type="button" data-id="${p.id}" data-cat="${p.cat}">
+    <span class="thumb"><canvas data-scene="${p.scene}" data-seed="${i+3}"></canvas>${p.live?'<span class="live">DEV</span>':''}<span class="badge">${esc(p.engine.split(' · ')[0])}</span></span>
+    <span class="card-body"><span class="mini-av" aria-hidden="true">하</span><span><span class="ct">${esc(p.title)}</span><span class="meta">${esc(p.status)} · ${esc(p.role)}</span></span></span>
+  </button>`).join('');
+function paintThumbs(){ grid.querySelectorAll('canvas').forEach(cv=>{ if(cv.offsetParent) drawStatic(cv, cv.dataset.scene, +cv.dataset.seed); }); }
+new ResizeObserver(paintThumbs).observe(grid);
+if(document.fonts) document.fonts.ready.then(paintThumbs);
+
+const tabs = document.getElementById('tabs');
+function setTab(tab){
+  tabs.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected', String(b.dataset.tab===tab)));
+  const about = tab==='about'; grid.hidden = about; info.hidden = !about;
+  grid.querySelectorAll('.card').forEach(c=>{ c.hidden = !(tab==='all' || c.dataset.cat===tab); });
+  paintThumbs();
+}
+tabs.addEventListener('click', e=>{ const b = e.target.closest('.tab'); if(b) setTab(b.dataset.tab); });
+document.querySelectorAll('[data-tab-link]').forEach(a=>a.addEventListener('click', ()=>setTab(a.dataset.tabLink)));
+
+/* watch modal */
+const watch = document.getElementById('watch'); let lastFocus = null, wAnim = 0;
+function openWatch(id){
+  const p = SITE.projects.find(x=>x.id===id); if(!p) return;
+  lastFocus = document.activeElement;
+  document.getElementById('wTitle').textContent = p.title;
+  document.getElementById('wMeta').innerHTML = `<span class="pill">${esc(p.engine)}</span><span>${esc(p.status)}</span><span>·</span><span>${esc(p.role)}</span>`;
+  document.getElementById('wDesc').textContent = p.desc;
+  document.getElementById('wPoints').innerHTML = p.points.map(t=>`<li>${esc(t)}</li>`).join('');
+  const logs = SITE.logs.filter(l=>l[0]===id);
+  document.getElementById('wLogTitle').textContent = `개발 로그 ${logs.length}개`;
+  document.getElementById('wLogs').innerHTML = logs.map(l=>`<li class="cmt"><span class="mini-av" aria-hidden="true">하</span><div><b>하성욱</b><span>dev log</span><p>${esc(l[1])}</p></div></li>`).join('') || '<li class="cmt"><span class="mini-av" aria-hidden="true">하</span><div><p>아직 기록이 없어요.</p></div></li>';
+  watch.hidden = false; document.documentElement.style.overflow = 'hidden';
+  const cv = document.getElementById('wCanvas');
+  requestAnimationFrame(()=>{ drawStatic(cv, p.scene, 11); });
+  document.getElementById('wClose').focus();
+}
+function closeWatch(){ watch.hidden = true; document.documentElement.style.overflow = ''; if(lastFocus) lastFocus.focus(); }
+grid.addEventListener('click', e=>{ const c = e.target.closest('.card'); if(c) openWatch(c.dataset.id); });
+document.getElementById('wClose').addEventListener('click', closeWatch);
+watch.addEventListener('click', e=>{ if(e.target===watch) closeWatch(); });
+document.addEventListener('keydown', e=>{ if(!watch.hidden && e.key==='Escape') closeWatch(); });
+
+/* nav + copy */
+const nav = document.getElementById('nav');
+const onScroll = ()=>nav.classList.toggle('scrolled', scrollY > 20); addEventListener('scroll', onScroll, {passive:true}); onScroll();
+const copyBtn = document.getElementById('copy');
+copyBtn.addEventListener('click', ()=>{
+  const el = document.getElementById('addr');
+  const sel = ()=>{ const r=document.createRange(); r.selectNodeContents(el); const s=getSelection(); s.removeAllRanges(); s.addRange(r); copyBtn.textContent='선택됨'; setTimeout(()=>copyBtn.textContent='이메일 복사',1600); };
+  try{ navigator.clipboard.writeText(el.textContent.trim()).then(()=>{ copyBtn.textContent='복사됨'; setTimeout(()=>copyBtn.textContent='이메일 복사',1600); }, sel); }catch(err){ sel(); }
+});
+})();
+</script>
+
+</body>
+</html>
