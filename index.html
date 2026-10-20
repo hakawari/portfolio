@@ -1406,7 +1406,7 @@ function openWatch(id){
   const p = SITE.projects.find(x=>x.id===id); if(!p) return;
   lastFocus = document.activeElement;
   document.getElementById('wTitle').textContent = p.title;
-  document.getElementById('wMeta').innerHTML = `<span class="pill">${esc(p.engine)}</span><span>${esc(p.status)}</span><span>·</span><span>${esc(p.role)}</span>`;
+  document.getElementById('wMeta').innerHTML = `<span class="pill">${esc(p.engine)}</span><span>${esc(p.status)}</span><span>${esc(p.role)}</span>`;
   document.getElementById('wDesc').textContent = p.desc;
   document.getElementById('wPoints').innerHTML = p.points.map(t=>`<li>${esc(t)}</li>`).join('');
   const logs = SITE.logs.filter(l=>l[0]===id);
