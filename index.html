@@ -276,7 +276,46 @@ footer{padding-block:28px 40px;color:var(--dim);font-size:12px}
     font-size: 11px;
   }
 }
+/* 프로젝트 사진 갤러리 */
 
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 44px;
+  height: 52px;
+  border: 1px solid rgba(111,211,255,.35);
+  border-radius: 10px;
+  background: rgba(5,8,15,.75);
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.gallery-arrow:hover {
+  background: rgba(63,162,255,.35);
+}
+
+.gallery-arrow.prev {
+  left: 14px;
+}
+
+.gallery-arrow.next {
+  right: 14px;
+}
+
+.gallery-counter {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 14px;
+  border-radius: 20px;
+  background: rgba(5,8,15,.8);
+  color: white;
+  font-size: 13px;
+}
 </style>
 
 </head>
@@ -444,7 +483,17 @@ footer{padding-block:28px 40px;color:var(--dim);font-size:12px}
 <div class="watch" id="watch" role="dialog" aria-modal="true" aria-labelledby="wTitle" hidden>
   <div class="watch-in">
     <button class="close" type="button" id="wClose" aria-label="닫기"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4l10 10M14 4L4 14"/></svg></button>
-    <div class="player"><canvas id="wCanvas" aria-hidden="true"></canvas></div>
+    <div class="player" id="galleryPlayer">
+  <canvas id="wCanvas" aria-hidden="true"></canvas>
+  
+  <img id="galleryImage" alt="게임 스크린샷" style="display:none;width:100%;height:100%;object-fit:contain;">
+  
+  <button id="galleryPrev" class="gallery-arrow prev" type="button" aria-label="이전 사진" hidden>❮</button>
+  
+  <button id="galleryNext" class="gallery-arrow next" type="button" aria-label="다음 사진" hidden>❯</button>
+  
+  <div id="galleryCounter" class="gallery-counter" hidden></div>
+  </div>
     <div class="watch-body">
       <div>
         <h2 id="wTitle"></h2>
@@ -472,13 +521,18 @@ const SITE = {
   ],
   projects: [
     {
-      id: 'stylisharena', cat: 'unreal', scene: 'arena', live: true, title: 'Stylish : Arena', engine: 'Unreal Engine 5', status: '', role: '기획 · 개발',
-      desc: '초능력과 입체적인 이동을 활용해 전장을 누비는 하이퍼 FPS 배틀로얄',
+      id: 'stylisharena', cat: 'unreal', scene: 'arena', live: true, title: 'Stylish : Arena', images: [
+        'images/are0.png',
+        'images/are1.png'
+      ], engine: 'Unreal Engine 5', status: '', role: '기획 · 개발',
+      desc: '초능력을 활용해 전장을 누비는 하이퍼 FPS 배틀로얄',
       points: ['자료 정리중----------------------------------------']
     },
 
     {
-      id: 'dream', cat: 'msw', scene: 'dream', live: true, title: 'Lucid Dream', engine: 'MapleStory Worlds', status: '', role: '기획 · 개발',
+      id: 'dream', cat: 'msw', scene: 'dream', live: true, title: 'Lucid Dream', images: [
+        'images/lucid0.png',
+      ], engine: 'MapleStory Worlds', status: '', role: '기획 · 개발',
       desc: '루시드에게 꿈을 빼앗긴 사람들의 이야기를 담은 2D 횡스크롤 로그라이크',
       points: ['자료 정리중----------------------------------------']
     },
@@ -490,7 +544,19 @@ const SITE = {
     },
 
     {
-      id: 'unitygame', cat: 'unity', scene: 'tagom', title: '빙하타곰', engine: 'Unity', status: '', role: '개발',
+      id: 'unitygame', cat: 'unity', scene: 'tagom', title: '빙하타곰', images: [
+        'images/tagom0.png',
+        'images/tagom1.png',
+        'images/tagom2.png',
+        'images/tagom3.png',
+        'images/tagom4.png',
+        'images/tagom5.png',
+        'images/tagom6.png',
+        'images/tagom7.png',
+        'images/tagom8.png',
+        'images/tagom9.png',
+        'images/tagom10.png',        
+      ], engine: 'Unity', status: '', role: '개발',
       desc: '움직이는 빙하를 타이밍에 맞춰 쌓아 올리며 최고 기록에 도전하는 캐주얼 아케이드 게임',
       points: ['자료 정리중----------------------------------------']
     },
@@ -1380,10 +1446,19 @@ document.getElementById('handle').textContent = SITE.instagram.handle;
 document.getElementById('addr').textContent = SITE.email;
 document.getElementById('igLink').href = SITE.instagram.url;
 
-const grid = document.getElementById('grid');
-grid.innerHTML = SITE.projects.map((p,i)=>`
+  const grid = document.getElementById('grid');
+  grid.innerHTML = SITE.projects.map((p, i) => `
   <button class="card" type="button" data-id="${p.id}" data-cat="${p.cat}">
-    <span class="thumb"><canvas data-scene="${p.scene}" data-seed="${i+3}"></canvas>${p.live?'<span class="live">DEV</span>':''}<span class="badge">${esc(p.engine.split(' · ')[0])}</span></span>
+    <span class="thumb">
+  ${p.images?.length
+      ? `<img src="${esc(p.images[0])}"
+         alt="${esc(p.title)}"
+         style="width:100%;height:100%;object-fit:cover;display:block;">`
+      : `<canvas data-scene="${p.scene}" data-seed="${i + 3}"></canvas>`
+    }
+  ${p.live ? '<span class="live">DEV</span>' : ''}
+  <span class="badge">${esc(p.engine.split(' · ')[0])}</span>
+</span>
     
 <span class="card-body"><span class="mini-av" aria-hidden="true">하</span><span><span class="ct">${esc(p.title)}</span><span class="meta">${esc(p.status)}${p.status && p.role ? ' · ' : ''}${esc(p.role || '')}</span></span></span>
 
@@ -1414,7 +1489,57 @@ function openWatch(id){
   
   watch.hidden = false; document.documentElement.style.overflow = 'hidden';
   const cv = document.getElementById('wCanvas');
-  requestAnimationFrame(()=>{ drawStatic(cv, p.scene, 11); });
+
+  const galleryImage = document.getElementById('galleryImage');
+  const galleryPrev = document.getElementById('galleryPrev');
+  const galleryNext = document.getElementById('galleryNext');
+  const galleryCounter = document.getElementById('galleryCounter');
+
+  const images = p.images || [];
+  let currentIndex = 0;
+
+  if (images.length > 0) {
+    cv.style.display = 'none';
+    galleryImage.style.display = 'block';
+
+    const showImage = () => {
+      galleryImage.src = images[currentIndex];
+      galleryCounter.textContent = `${currentIndex + 1} / ${images.length}`;
+
+      // 첫 번째와 마지막 사진에서 버튼 숨기기
+      galleryPrev.hidden = currentIndex === 0;
+      galleryNext.hidden = currentIndex === images.length - 1;
+      galleryCounter.hidden = images.length <= 1;
+    };
+
+    galleryPrev.onclick = () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        showImage();
+      }
+    };
+
+    galleryNext.onclick = () => {
+      if (currentIndex < images.length - 1) {
+        currentIndex++;
+        showImage();
+      }
+    };
+
+    showImage();
+
+  } else {
+    galleryImage.style.display = 'none';
+    cv.style.display = 'block';
+
+    galleryPrev.hidden = true;
+    galleryNext.hidden = true;
+    galleryCounter.hidden = true;
+
+    requestAnimationFrame(() => {
+      drawStatic(cv, p.scene, 11);
+    });
+  }
   document.getElementById('wClose').focus();
 }
 function closeWatch(){ watch.hidden = true; document.documentElement.style.overflow = ''; if(lastFocus) lastFocus.focus(); }
