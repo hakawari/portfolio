@@ -455,7 +455,7 @@ footer{padding-block:28px 40px;color:var(--dim);font-size:12px}
           <button class="tab" role="tab" type="button" data-tab="unreal" aria-selected="false">언리얼</button>
           <button class="tab" role="tab" type="button" data-tab="unity" aria-selected="false">유니티</button>
           <button class="tab" role="tab" type="button" data-tab="msw" aria-selected="false">MSW</button>
-          <button class="tab" role="tab" type="button" data-tab="research" aria-selected="false">연구 · 도구</button>
+          <button class="tab" role="tab" type="button" data-tab="research" aria-selected="false">연구</button>
         </div>
       </div>
       <div class="grid" id="grid"></div>
@@ -536,11 +536,78 @@ const SITE = {
   projects: [
 
     {
+      id: 'stylishrevenge', cat: 'unreal', scene: 'revenge', live: true, title: 'Stylish : REVENGE', images: [
+        'images/revenge0.png',
+        'images/revenge1.png',
+        'images/revenge2.png',
+        'images/revenge3.png',
+        'images/revenge4.png',
+        'images/revenge5.png',
+        'images/revenge6.png',
+        'images/revenge7.png',
+        'images/revenge8.png',
+      ], engine: 'Unreal Engine 5', status: '', role: '기획',
+      desc: '',
+      points: [],
+
+      details: [
+        {
+          type: "heading",
+          text: "기획 개요"
+        },
+        {
+          type: "text",
+          text: "장르: 능력 기반 배틀로얄 FPS\n담당: 캐릭터 컨셉, 고유 능력, 전투 시스템 및 게임 모드 기획\n진행 상태: 기획 및 캐릭터 컨셉 디자인"
+        },
+        {
+          type: "heading",
+          text: "프로젝트 소개"
+        },
+        {
+          type: "text",
+          text: "Stylish : REVENGE는 각기 다른 능력과 전투 스타일을 가진 캐릭터들이 최후의 생존자를 가리기 위해 경쟁하는 배틀로얄 FPS 프로젝트입니다.\n\n플레이어는 다양한 캐릭터 중 하나를 선택하고, 고유한 능력과 무기를 활용해 전투를 펼칩니다. 단순한 사격 실력뿐 아니라 캐릭터의 특성과 전장 상황을 고려한 전략적인 플레이를 목표로 합니다."
+        },
+        {
+          type: "heading",
+          text: "기획 의도"
+        },
+        {
+          type: "text",
+          text: "기존 배틀로얄의 생존 경쟁에 캐릭터별 고유 능력을 결합하여, 같은 전장에서도 선택한 캐릭터에 따라 서로 다른 전투 경험을 제공하고자 했습니다.\n\n캐릭터마다 능력과 전투 방식에 차이를 두어 플레이어가 자신에게 맞는 플레이 스타일을 선택할 수 있도록 설계했습니다."
+        },
+        {
+          type: "heading",
+          text: "핵심 기획"
+        },
+        {
+          type: "text",
+          text: "① 개성 있는 캐릭터 시스템\n데미갓, 사신, 홀리 아처 등 서로 다른 콘셉트와 능력을 가진 캐릭터를 구성하여 다양한 전투 스타일을 제공합니다.\n\n② 능력 중심의 FPS 전투\n총기 전투에 캐릭터별 고유 능력을 결합하여, 능력을 사용하는 타이밍과 상황 판단이 교전 결과에 영향을 주도록 설계합니다.\n\n③ 전략적인 배틀로얄\n캐릭터의 강점과 약점, 전투 거리와 지형을 고려해 교전 방식을 선택하고 최후까지 살아남는 경험을 목표로 합니다."
+        },
+        {
+          type: "heading",
+          text: "캐릭터 디자인"
+        },
+        {
+          type: "text",
+          text: "각 캐릭터는 고유한 배경 설정과 전투 방식을 바탕으로 외형과 무기를 디자인했습니다.\n\n캐릭터의 실루엣과 무기, 시각적 특징만으로도 전투 스타일을 예상할 수 있도록 차별화하는 것을 목표로 합니다."
+        },
+        {
+          type: "heading",
+          text: "주요 제작 자료"
+        },
+        {
+          type: "text",
+          text: "캐릭터 컨셉아트 / 캐릭터별 고유 능력 기획 / 전투 시스템 설계 / 배틀로얄 게임 모드 기획"
+        }
+      ],
+
+    },
+
+    {
       id: 'vellorne', cat: 'unreal', scene: 'arena', live: true, title: '벨로른의 마지막 왕, 알드윈', images: [
         'images/vellorne0.png',
-        'images/vellorne4.png',
-      ], engine: 'Unreal Engine 5', status: '', role: '기획 · 개발',
-      desc: '인간의 선함을 끝까지 믿었던 왕의 비극을 전투로 풀어낸 소울라이크 보스전 기획 프로젝트.',
+      ], engine: 'Unreal Engine 5', status: '', role: '컨셉 디자인',
+      desc: '',
       points: [],
       // details는 순서대로 표시됩니다. 다른 프로젝트에도 같은 배열을 추가할 수 있습니다.
       // { type: 'heading', text: '소제목' }
@@ -551,7 +618,7 @@ const SITE = {
       details: [
         {
           "type": "heading",
-          "text": "VELLORNE · 기획 개요"
+          "text": "기획 개요"
         },
         {
           "type": "text",
@@ -641,57 +708,216 @@ const SITE = {
     },
 
     {
-      id: 'stylisharena', cat: 'unreal', scene: 'arena', title: 'Stylish : Arena', images: [
-        'images/are0.png',
-        'images/are3.png',
-        'images/are1.png',
-        'images/are2.png',
-        'images/are6.png',
-        'images/are5.png',
-        'images/are4.png',
-      ], engine: 'Unreal Engine 5', status: '', role: '기획 · 개발',
-      desc: '초능력을 활용해 전장을 누비는 하이퍼 FPS 배틀로얄',
-      points: ['자료 정리중----------------------------------------']
-    },
-
-    {
       id: 'luciddream', cat: 'msw', scene: 'dream', live: true, title: 'Lucid Dream', images: [
         'images/lucid0.png',
-      ], engine: 'MapleStory Worlds', status: '', role: '기획 · 개발',
-      desc: '루시드에게 꿈을 빼앗긴 사람들의 이야기를 담은 2D 횡스크롤 로그라이크',
-      points: ['자료 정리중----------------------------------------']
+      ], engine: 'MapleStory Worlds', status: '', role: '프리 알파',
+      desc: '',
+      points: [],
+      details: [
+        {
+          type: "heading",
+          text: "자료 정리중"
+        },
+        {
+          type: "text",
+          text: "루시드에게 꿈을 빼앗긴 사람들의 이야기를 담은 2D 횡스크롤 로그라이크"
+        }
+      ]
     },
 
     {
       id: 'kagero', cat: 'unreal', scene: 'arena', live: true, title: 'Kagero', images: [
         'images/kagero0.png',
-      ], engine: 'Unreal Engine 5', status: '', role: '기획 · 개발',
-      desc: '검술과 암살을 활용해 다양한 적과 맞서는 3인칭 액션 RPG.',
-      points: ['자료 정리중----------------------------------------']
+      ], engine: 'Unreal Engine 5', status: '', role: '기획',
+      desc: '',
+      points: [],
+      details: [
+        {
+          type: "heading",
+          text: "자료 정리중"
+        },
+        {
+          type: "text",
+          text: "검술과 암살을 활용해 다양한 적과 맞서는 3인칭 액션 RPG"
+        }
+        
+      ]
     },
 
     {
-      id: 'research0', cat: 'research', scene: 'flow', live: true, title: '게임 장르 트렌드 연구', engine: '연구', status: '동계 학술대회 논문', role: '',
-      desc: 'Steam 연말 매출 상위 Platinum 게임군의 구성 변화 : 2016~2025년 10개 특성에 대한 탐색적 내용분석',
-      points: ['자료 정리중----------------------------------------']
+      id: 'research0', cat: 'research', scene: 'flow', title: 'Steam Platinum 게임군 변화 연구', images: [
+        'images/research0.png'
+      ], engine: '논문', status: '', role: '연구 완료',
+      desc: '',
+      points: [],
+      details: [
+        {
+          type: "heading",
+          text: "연구 완료 · 게재 심사 결과 대기"
+        },
+        {
+          type: "text",
+          text: "Steam 연말 매출 상위 Platinum 게임군의 구성 변화 : 2016~2025년 10개 특성에 대한 탐색적 내용분석"
+        }
+      ]
     },
 
     {
       id: 'unitygame', cat: 'unity', scene: 'tagom', title: '빙하타곰', images: [
-        'images/tagom0.png',
-        'images/tagom1.png',
-        'images/tagom2.png',
-        'images/tagom3.png',
-        'images/tagom4.png',
-        'images/tagom5.png',
-        'images/tagom6.png',
-        'images/tagom7.png',
-        'images/tagom8.png',
-        'images/tagom9.png',
-        'images/tagom10.png',        
-      ], engine: 'Unity', status: '', role: '개발',
-      desc: '움직이는 빙하를 타이밍에 맞춰 쌓아 올리며 최고 기록에 도전하는 캐주얼 아케이드 게임',
-      points: ['자료 정리중----------------------------------------']
+        'images/tagom0.png',      
+      ], engine: 'Unity', status: '', role: '개발 완료',
+      desc: '',
+      points: [],
+      details: [
+        {
+          type: "heading",
+          text: "기획 개요"
+        },
+        {
+          type: "text",
+          text: "장르: 캐주얼 스택 액션 게임\n담당: 게임 기획, 시스템 설계, UI 및 게임 로직 구현\n진행 상태: 개발 완료"
+        },
+
+        {
+          type: "heading",
+          text: "프로젝트 소개"
+        },
+        {
+          type: "text",
+          text: "환경 오염으로 인해 북극의 서식지가 점점 줄어드는 상황 속에서, 북극곰이 빙하를 차곡차곡 쌓아 더 높은 곳으로 올라가는 콘셉트의 캐주얼 게임입니다.\n\n플레이어는 타이밍에 맞춰 좌우로 이동하는 빙하 블록을 떨어뜨리고, 북극곰이 안전하게 다음 빙하로 올라갈 수 있도록 쌓아 올려야 합니다. 단순한 조작을 기반으로 하지만, 점수 시스템, 퍼펙트 판정, 이벤트, 부스트 기능을 통해 반복 플레이의 재미를 강화했습니다."
+        },
+
+        {
+          type: "heading",
+          text: "기획 의도"
+        },
+        {
+          type: "text",
+          text: "직관적인 조작만으로도 누구나 쉽게 플레이할 수 있는 게임을 목표로 하면서, 타이밍과 정확도를 요구하는 스택 구조를 통해 몰입감을 높이고자 했습니다.\n\n또한 북극곰과 환경 오염이라는 소재를 활용해 단순한 아케이드 게임에 테마적 의미를 더했으며, 단계 변화와 랜덤 이벤트를 통해 플레이 흐름에 긴장감과 변화를 주도록 설계했습니다."
+        },
+
+        {
+          type: "heading",
+          text: "핵심 시스템"
+        },
+        {
+          type: "text",
+          text: "① 블록 드랍 시스템\n상단에서 좌우로 이동하는 빙하 블록을 타이밍에 맞춰 낙하시켜 쌓아 올리는 게임 구조입니다. 블록은 좌측에서 시작해 우측으로 왕복 이동하며, 스페이스바 입력 시 중력을 받아 아래로 떨어집니다.\n\n② 자동 등반 캐릭터 시스템\n플레이어 캐릭터인 북극곰은 직접 조작하지 않으며, 블록이 성공적으로 안착하면 자동으로 다음 빙하의 정중앙으로 올라갑니다. 블록이 제대로 설치되지 않으면 북극곰은 올라가지 못하고 게임 오버가 됩니다.\n\n③ 점수 및 퍼펙트 판정 시스템\n기본적으로 블록 안착 시 점수를 획득하며, 80% 이상 정확하게 겹치도록 설치하면 퍼펙트 판정으로 추가 보너스를 얻습니다. 단계가 올라갈수록 점수 배율도 함께 증가합니다.\n\n④ 부스트 시스템\n일반 착지 시 +5%, 퍼펙트 착지 시 +10% 게이지가 누적되며, 게이지가 100%에 도달하면 5개의 블록을 자동으로 퍼펙트로 쌓아주는 부스트를 사용할 수 있습니다.\n\n⑤ 랜덤 이벤트 시스템\n게임 진행 중 지구 온난화와 눈보라 이벤트가 확률적으로 발생합니다. 지구 온난화는 생성되는 블록의 크기를 감소시키고, 눈보라는 기존 블록과 캐릭터를 흔들리게 하며 제한 시간 내에 블록을 설치하지 못하면 게임 오버가 됩니다."
+        },
+
+        {
+          type: "heading",
+          text: "구현 요소"
+        },
+        {
+          type: "text",
+          text: "실제 개발된 기능은 다음과 같습니다.\n\n- 기본 바닥 블록 및 캐릭터 시작 위치 설정\n- 좌우 왕복 이동 및 낙하가 가능한 블록 시스템\n- 블록 안착 판정 및 높이 누적 로직\n- 북극곰 자동 등반 시스템\n- 블록 착지 실패 시 게임 오버 처리\n- 점수 및 퍼펙트 보너스 시스템\n- 부스트 게이지 및 부스트 발동 기능\n- 지구 온난화 / 눈보라 이벤트 구현\n- 캐릭터 추적 카메라 시스템\n- 점수, 이벤트, 피버 게이지, 게임 오버 UI 구성\n- 배경 음악 및 효과음 적용\n- 5단계 단위 배경 변화 및 난이도 상승 시스템"
+        },
+
+        {
+          type: "heading",
+          text: "단계별 배경 변화"
+        },
+        {
+          type: "text",
+          text: "게임은 블록을 5개 쌓을 때마다 단계가 변화하며, 시간의 흐름에 따라 배경이 변경됩니다. 마지막 밤 단계에 도달한 이후에는 배경 변화 없이 난이도만 계속 상승하도록 구성했습니다."
+        },
+        {
+          type: "image",
+          src: "images/tagom1.png",
+          alt: "1단계 배경"
+        },
+        {
+          type: "image",
+          src: "images/tagom2.png",
+          alt: "2단계 배경"
+        },
+        {
+          type: "image",
+          src: "images/tagom3.png",
+          alt: "3단계 배경"
+        },
+        {
+          type: "image",
+          src: "images/tagom4.png",
+          alt: "4단계 배경"
+        },
+        {
+          type: "image",
+          src: "images/tagom5.png",
+          alt: "5단계 배경"
+        },
+
+        {
+          type: "heading",
+          text: "착지 및 부스트 UI"
+        },
+        {
+          type: "text",
+          text: "일반 착지와 퍼펙트 착지에 따라 점수 획득과 게이지 상승량이 달라지며, 피버 게이지는 우측 하단에 세로형 UI로 표시됩니다."
+        },
+        {
+          type: "image",
+          src: "images/tagom7.png",
+          alt: "일반 착지"
+        },
+        {
+          type: "image",
+          src: "images/tagom6.png",
+          alt: "퍼펙트 착지"
+        },
+        {
+          type: "image",
+          src: "images/tagom8.png",
+          alt: "피버 게이지 UI"
+        },
+
+        {
+          type: "heading",
+          text: "이벤트 시스템"
+        },
+        {
+          type: "text",
+          text: "랜덤 이벤트를 통해 플레이 흐름에 예측 불가능성과 긴장감을 추가했습니다.\n\n- 지구 온난화: 이후 생성되는 블록이 80% 크기로 생성되며 5턴 동안 지속\n- 눈보라: 기존 블록과 캐릭터가 흔들리며, 5초 이내에 블록을 설치하지 못하면 게임 오버\n\n두 이벤트 모두 블록 설치 시 7% 확률로 발생합니다."
+        },
+        {
+          type: "image",
+          src: "images/tagom9.png",
+          alt: "지구 온난화 이벤트"
+        },
+        {
+          type: "image",
+          src: "images/tagom10.png",
+          alt: "눈보라 이벤트"
+        },
+
+        {
+          type: "heading",
+          text: "UI 및 사운드"
+        },
+        {
+          type: "text",
+          text: "게임 플레이에 필요한 핵심 정보를 명확하게 전달하기 위해 UI를 구성했습니다.\n\n- 현재 점수: 좌측 하단 표시\n- 점수 획득 표시: 해당 블록 앞에 출력\n- 이벤트 알림: 현재 발생 중인 이벤트 표시\n- 피버 게이지: 우측 하단 세로 UI\n- 게임 오버 UI: 최종 점수, 최고 점수, 재시작 버튼 제공\n\n또한 게임 시작 화면, 플레이 배경 음악, 블록 착지, 게임 오버 상황에 각각 사운드 효과를 적용해 플레이의 몰입도를 높였습니다."
+        },
+
+        {
+          type: "heading",
+          text: "개발 결과"
+        },
+        {
+          type: "text",
+          text: "단순한 블록 쌓기 구조를 기반으로 하면서도 퍼펙트 판정, 부스트, 랜덤 이벤트, 단계별 배경 변화 등의 요소를 추가해 반복 플레이의 재미를 강화했습니다."
+        },
+
+        {
+          type: "heading",
+          text: "주요 제작 자료"
+        },
+        {
+          type: "text",
+          text: "게임 플레이 화면 / 단계별 배경 변화 / 착지 판정 UI / 피버 게이지 / 이벤트 시스템 화면"
+        }
+      ],
     },
 
   
