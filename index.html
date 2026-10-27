@@ -150,7 +150,7 @@ button{font:inherit;color:inherit}
 
 /* channel */
 .banner{position:relative;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;min-height:clamp(120px,16vw,180px);padding:22px 24px;border-radius:16px;overflow:hidden;border:1px solid var(--line);
-  background:linear-gradient(110deg,#0A1730 0%,#0B1B3C 40%,#121A44 100%)}
+    background:url("images/banner0.png") center/cover no-repeat,linear-gradient(110deg,#0A1730 0%,#0B1B3C 40%,#121A44 100%)}
 .banner::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(63,162,255,.07) 0 1px,transparent 1px 28px);pointer-events:none}
 .banner-tag{position:relative;font:500 11px/1 var(--font-mono);letter-spacing:.16em;color:var(--accent-2)}
 .banner-text{position:relative;font:700 clamp(28px,5vw,56px)/1 var(--font-display);letter-spacing:.04em;color:var(--fg);text-shadow:0 0 24px rgba(63,162,255,.5)}
@@ -326,6 +326,145 @@ footer{padding-block:28px 40px;color:var(--dim);font-size:12px}
 .project-details img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
 .project-details figcaption{margin-top:9px;color:var(--muted);font-size:13px;text-align:center;white-space:pre-wrap}
 @media(max-width:560px){.project-details{gap:15px;padding-top:22px}.project-details p{font-size:14px;line-height:1.9}}
+.mini-av {
+  overflow: hidden;
+}
+
+.mini-av img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+/* =========================================
+   BLACK & WHITE PORTFOLIO THEME
+   ========================================= */
+
+:root {
+  --bg: #08090C;
+  --bg-raise: #111216;
+  --bg-glass: rgba(8,9,12,.88);
+
+  --surface: #16181D;
+  --surface-2: #202228;
+
+  --line: #292C34;
+  --line-strong: #484C57;
+
+  --fg: #FFFFFF;
+  --fg-2: #D1D3DA;
+  --muted: #A0A4AE;
+  --dim: #808590;
+
+  --accent: #F3F4F6;
+  --accent-2: #D3D6DE;
+  --accent-ink: #08090C;
+
+  --a08: rgba(255,255,255,.08);
+  --a14: rgba(255,255,255,.14);
+  --a30: rgba(255,255,255,.30);
+  --a55: rgba(255,255,255,.55);
+
+  --violet: #C5C7CE;
+  --ice: #F3F4F6;
+}
+
+/* 상단 배경 */
+.hero {
+  background:
+    radial-gradient(80% 50% at 50% 0%, #25272F 0%, transparent 72%),
+    var(--bg);
+}
+
+/* 메인 화면 테두리 */
+.frame {
+  background: linear-gradient(180deg, #35373E, #15161B);
+  box-shadow:
+    0 0 0 1px var(--a30),
+    0 0 40px rgba(255,255,255,.08),
+    0 30px 80px rgba(0,0,0,.6);
+}
+
+/* 바닥 그리드 */
+.floor::before {
+  background:
+    repeating-linear-gradient(90deg,rgba(255,255,255,.18) 0 1px,transparent 1px 64px),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.14) 0 1px,transparent 1px 48px);
+}
+
+/* 게임 디자인 철학 카드 */
+.ch-card {
+  background: linear-gradient(
+    180deg,
+    rgba(32,33,39,.85),
+    rgba(12,13,17,.85)
+  );
+}
+
+.ch-card[aria-pressed="true"] {
+  box-shadow:
+    0 0 0 1px var(--accent),
+    0 0 25px rgba(255,255,255,.12),
+    inset 0 0 24px var(--a08);
+}
+
+/* 강조 버튼 */
+.btn-glow {
+  box-shadow:
+    0 0 18px rgba(255,255,255,.12),
+    inset 0 0 12px var(--a08);
+}
+
+/* 배너 텍스트와 격자 */
+.banner-text {
+  text-shadow: 0 0 24px rgba(255,255,255,.25);
+}
+
+.banner::before {
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255,255,255,.04) 0 1px,
+    transparent 1px 28px
+  );
+}
+
+/* 프로젝트 카드 호버 */
+.card:hover .thumb,
+.card:focus-visible .thumb {
+  border-color: var(--accent);
+  box-shadow: 0 0 22px rgba(255,255,255,.16);
+}
+
+/* 연락처 영역 */
+.contact-box {
+  background:
+    radial-gradient(70% 120% at 0% 0%,#24262D 0%,transparent 60%),
+    var(--bg-raise);
+  box-shadow: inset 0 0 40px var(--a08);
+}
+
+/* 플레이 테스트 버튼 */
+.play-controls .play-mode.active {
+  border-color: var(--accent);
+  background: rgba(255,255,255,.12);
+  color: var(--accent);
+  box-shadow: 0 0 12px rgba(255,255,255,.1);
+}
+
+.play-controls button:hover {
+  border-color: var(--accent-2);
+  color: #fff;
+}
+
+/* 배너 글씨 가독성 개선 */
+.banner-text {
+  color: #FFFFFF;
+  -webkit-text-stroke: 1.5px #101522;
+  text-shadow: 0 2px 8px rgba(0,0,0,.85);
+}
+
 </style>
 
 </head>
@@ -420,12 +559,13 @@ footer{padding-block:28px 40px;color:var(--dim);font-size:12px}
   <section class="section" id="channel" aria-labelledby="chName">
     <div class="wrap">
       <div class="banner" aria-hidden="true">
-        <span class="banner-tag">TECHNICAL GAME DESIGNER · <span data-count>0</span> PROJECTS</span>
+        <span class="banner-tag">TECHNICAL GAME DESIGNER · <span data-count></span> </span>
         <span class="banner-text">BUILD · PLAY · CREATE</span>
       </div>
       <div class="ch-head">
-        <div class="avatar" aria-hidden="true">하</div>
-        <div class="ch-info">
+                <div class="avatar" aria-hidden="true"><img src="images/emblem0.png" alt=""
+                    style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;"></div>
+                <div class="ch-info">
           <h2 class="ch-name" id="chName">하성욱</h2>
           <p class="ch-handle"><span id="handle"></span> · 프로젝트 <span data-count>0</span>개</p>
           <p class="ch-role">Technical Game Designer</p>
@@ -1802,11 +1942,13 @@ grid.innerHTML = [...SITE.projects]
   ${p.live ? '<span class="live">DEV</span>' : ''}
   <span class="badge">${esc(p.engine.split(' · ')[0])}</span>
 </span>
-    
-<span class="card-body"><span class="mini-av" aria-hidden="true">하</span><span><span class="ct">${esc(p.title)}</span><span class="meta">${esc(p.status)}</span></span></span>
+
+<span class="card-body"><span class="mini-av" aria-hidden="true">
+  <img src="images/emblem0.png" alt="">
+</span><span><span class="ct">${esc(p.title)}</span><span class="meta">${esc(p.status)}</span></span></span>
 
   </button>`).join('');
-function paintThumbs(){ grid.querySelectorAll('canvas').forEach(cv=>{ if(cv.offsetParent) drawStatic(cv, cv.dataset.scene, +cv.dataset.seed); }); }
+  function paintThumbs() { grid.querySelectorAll('canvas').forEach(cv=>{ if(cv.offsetParent) drawStatic(cv, cv.dataset.scene, +cv.dataset.seed); }); }
 new ResizeObserver(paintThumbs).observe(grid);
 if(document.fonts) document.fonts.ready.then(paintThumbs);
 
