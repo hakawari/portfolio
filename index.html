@@ -407,6 +407,50 @@ footer{padding-block:28px 40px;color:var(--dim);font-size:12px}
 #contact #addr {
   display: none !important;
 }
+/* 프로젝트 페이지네이션 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 40px;
+  padding-bottom: 12px;
+}
+
+.pagination button {
+  width: 40px;
+  height: 40px;
+
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+
+  background: var(--surface);
+  color: var(--muted);
+
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.pagination button:hover {
+  border-color: #B9A8E8;
+  color: #FFFFFF;
+  background: #24212F;
+}
+
+.pagination button[aria-current="page"] {
+  background: #E8E4F0;
+  border-color: #E8E4F0;
+  color: #101015;
+  box-shadow: 0 0 16px rgba(185,168,232,.16);
+}
+
+#grid {
+  scroll-margin-top: 130px;
+}
 
 </style>
 
@@ -542,8 +586,11 @@ footer{padding-block:28px 40px;color:var(--dim);font-size:12px}
         </div>
       </div>
       <div class="grid" id="grid"></div>
-    </div>
-  </section>
+      
+      <nav class="pagination" id="pagination" aria-label="프로젝트 페이지" hidden>
+      </nav>
+      </div>
+      </section>
 
   
 <section class="section" id="contact" aria-labelledby="ctTitle">
@@ -1917,17 +1964,153 @@ grid.innerHTML = [...SITE.projects]
 </span><span><span class="ct">${esc(p.title)}</span><span class="meta">${esc(p.status)}</span></span></span>
 
   </button>`).join('');
-  function paintThumbs() { grid.querySelectorAll('canvas').forEach(cv=>{ if(cv.offsetParent) drawStatic(cv, cv.dataset.scene, +cv.dataset.seed); }); }
-new ResizeObserver(paintThumbs).observe(grid);
-if(document.fonts) document.fonts.ready.then(paintThumbs);
+  function paintThumbs() { grid.querySelectorAll('canvas').forEach(cv => { if (cv.offsetParent) drawStatic(cv, cv.dataset.scene, +cv.dataset.seed); }); }
+  new ResizeObserver(paintThumbs).observe(grid);
+  if (document.fonts) document.fonts.ready.then(paintThumbs);
 
-const tabs = document.getElementById('tabs');
-function setTab(tab){
-  tabs.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected', String(b.dataset.tab===tab)));
-  grid.querySelectorAll('.card').forEach(c=>{ c.hidden = !(tab==='all' || c.dataset.cat===tab); });
-  paintThumbs();
-}
-tabs.addEventListener('click', e=>{ const b = e.target.closest('.tab'); if(b) setTab(b.dataset.tab); });
+  /* 프로젝트 페이지네이션 */
+
+  const tabs = document.getElementById('tabs');
+  const pagination = document.getElementById('pagination');
+
+  let currentTab = 'all';
+  let currentPage = 1;
+
+  // 모바일 5개, PC 9개
+  function getPageSize() {
+    return window.innerWidth <= 560 ? 5 : 9;
+  }
+
+  // 현재 페이지 표시
+  function renderPage() {
+
+    const cards = [...grid.querySelectorAll('.card')];
+
+    // 선택한 카테고리만 추출
+    const filtered = cards.filter(card =>
+      currentTab === 'all' ||
+      card.dataset.cat === currentTab
+    );
+
+    const pageSize = getPageSize();
+    const totalPages = Math.max(
+      1,
+      Math.ceil(filtered.length / pageSize)
+    );
+
+    // 현재 페이지 범위 보정
+    currentPage = Math.min(currentPage, totalPages);
+
+    // 모든 카드 숨기기
+    cards.forEach(card => {
+      card.hidden = true;
+    });
+
+    // 해당 페이지 카드만 표시
+    const start = (currentPage - 1) * pageSize;
+    const visibleCards = filtered.slice(
+      start,
+      start + pageSize
+    );
+
+    visibleCards.forEach(card => {
+      card.hidden = false;
+    });
+
+    // 페이지가 하나라면 버튼 숨김
+    pagination.hidden = totalPages <= 1;
+
+    // 페이지 번호 생성
+    pagination.innerHTML = '';
+
+    if (totalPages > 1) {
+
+      for (let i = 1; i <= totalPages; i++) {
+
+        const button = document.createElement('button');
+
+        button.type = 'button';
+        button.textContent = i;
+        button.dataset.page = i;
+
+        button.setAttribute(
+          'aria-label',
+          `${i}페이지로 이동`
+        );
+
+        if (i === currentPage) {
+          button.setAttribute('aria-current', 'page');
+        }
+
+        pagination.appendChild(button);
+      }
+    }
+
+    paintThumbs();
+  }
+
+  // 카테고리 변경
+  function setTab(tab) {
+
+    currentTab = tab;
+    currentPage = 1;
+
+    tabs.querySelectorAll('.tab').forEach(button => {
+      button.setAttribute(
+        'aria-selected',
+        String(button.dataset.tab === tab)
+      );
+    });
+
+    renderPage();
+  }
+
+  // 카테고리 버튼 클릭
+  tabs.addEventListener('click', e => {
+
+    const button = e.target.closest('.tab');
+
+    if (button) {
+      setTab(button.dataset.tab);
+    }
+  });
+
+  // 페이지 번호 클릭
+  pagination.addEventListener('click', e => {
+
+    const button = e.target.closest('button[data-page]');
+
+    if (!button) return;
+
+    currentPage = Number(button.dataset.page);
+
+    renderPage();
+
+    // 프로젝트 목록 상단으로 이동
+    grid.scrollIntoView({
+      behavior: reduce ? 'auto' : 'smooth',
+      block: 'start'
+    });
+  });
+
+  // 모바일 ↔ PC 전환 대응
+  let previousPageSize = getPageSize();
+
+  window.addEventListener('resize', () => {
+
+    const newPageSize = getPageSize();
+
+    if (newPageSize !== previousPageSize) {
+
+      previousPageSize = newPageSize;
+      currentPage = 1;
+
+      renderPage();
+    }
+  });
+
+  // 최초 실행
+  setTab('all');
 
 /* watch modal */
 const watch = document.getElementById('watch'); let lastFocus = null;
