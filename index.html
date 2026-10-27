@@ -316,6 +316,16 @@ footer{padding-block:28px 40px;color:var(--dim);font-size:12px}
   color: white;
   font-size: 13px;
 }
+
+/* 별도 상세 기획 영역 */
+.project-details{border-top:1px solid var(--line-strong);padding-top:26px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.project-details h3{margin:8px 0 0;color:var(--accent-2);font-size:clamp(17px,2.5vw,21px);line-height:1.5}
+.project-details p{margin:0;color:var(--fg-2);font-size:15px;line-height:1.95;white-space:pre-wrap}
+.project-details hr{width:100%;border:0;border-top:1px solid var(--line-strong);margin:12px 0}
+.project-details figure{margin:4px 0;min-width:0}
+.project-details img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.project-details figcaption{margin-top:9px;color:var(--muted);font-size:13px;text-align:center;white-space:pre-wrap}
+@media(max-width:560px){.project-details{gap:15px;padding-top:22px}.project-details p{font-size:14px;line-height:1.9}}
 </style>
 
 </head>
@@ -499,7 +509,11 @@ footer{padding-block:28px 40px;color:var(--dim);font-size:12px}
         <h2 id="wTitle"></h2>
         <div class="wmeta" id="wMeta"></div>
       </div>
-      <div class="desc-box"><p id="wDesc"></p><ul id="wPoints"></ul></div>
+      <div class="desc-box" id="wDescBox">
+        <p id="wDesc"></p>
+        <ul id="wPoints"></ul>
+      </div>
+      <section class="project-details" id="wDetails" aria-label="상세 기획" hidden></section>
     </div>
   </div>
 </div>
@@ -522,17 +536,126 @@ const SITE = {
   projects: [
 
     {
-      id: 'stylisharena', cat: 'unreal', scene: 'arena', live: true, title: 'Stylish : Arena', images: [
+      id: 'vellorne', cat: 'unreal', scene: 'arena', live: true, title: '벨로른의 마지막 왕, 알드윈', images: [
+        'images/vellorne0.png',
+        'images/vellorne4.png',
+      ], engine: 'Unreal Engine 5', status: '', role: '기획 · 개발',
+      desc: '인간의 선함을 끝까지 믿었던 왕의 비극을 전투로 풀어낸 소울라이크 보스전 기획 프로젝트.',
+      points: [],
+      // details는 순서대로 표시됩니다. 다른 프로젝트에도 같은 배열을 추가할 수 있습니다.
+      // { type: 'heading', text: '소제목' }
+      // { type: 'text', text: '본문' } — 줄바꿈은 \n, 문단 간격은 \n\n
+      // { type: 'image', src: 'images/example.png', alt: '이미지 설명', caption: '선택 설명' }
+      // { type: 'divider' } — 구분선
+      // images는 상단 갤러리, details의 image는 본문 사진입니다.
+      details: [
+        {
+          "type": "heading",
+          "text": "VELLORNE · 기획 개요"
+        },
+        {
+          "type": "text",
+          "text": "장르: 3D 소울라이크 액션 RPG\n담당: 보스 캐릭터, 전투 시스템, 레벨 및 연출 기획\n진행 상태: 기획 및 컨셉 디자인"
+        },
+        {
+          "type": "heading",
+          "text": "프로젝트 소개"
+        },
+        {
+          "type": "text",
+          "text": "인간의 선함을 끝까지 믿었던 왕 알드윈의 비극을 중심으로 설계한 소울라이크 보스전 기획 프로젝트입니다. 캐릭터의 서사와 전투 시스템을 결합하여, 플레이어가 전투를 통해 보스의 과거와 내면을 이해하는 경험을 목표로 합니다."
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "type": "text",
+          "text": "벨로른의 마지막 왕, 알드윈\n\n옛 벨로른 왕국에는 백성을 진심으로 사랑하던 왕이 있었다.\n그는 “선함은 모든 사람 안에 잠들어 있다”고 믿었고, 진심으로 참회한 죄인에게는 처형 대신 사면을 내렸다.\n\n그러나 왕의 자비는 끝내 비극을 낳았다.\n사면받은 죄인 하나가 어느 남자의 아내와 딸을 살해한 것이다.\n\n가족을 잃은 남자는 확신했다.\n세상에는 반드시 죽어 마땅한 자가 있으며, 그런 자마저 용서하는 왕의 자비는 악이라고.\n\n그는 사람들 사이를 떠돌며 속삭였다.\n왕이 살인자를 풀어주었고, 다음 차례는 너희 가족이 될 것이라고.\n\n공포와 분노에 휩싸인 군중은 마침내 성문을 넘어 왕비를 죽였다.\n왕이 가장 사랑한 이가, 왕이 가장 사랑한 백성들의 손에 죽은 것이다.\n\n그날 밤, 왕은 무너졌다.\n그리고 벨로른의 마지막 밤에, 그는 제 손으로 왕국의 모든 생명을 끊어냈다.\n\n세월이 흐른 뒤, 폐허가 된 왕국에는 오직 한 사람만이 남았다.\n부러진 왕검을 지팡이처럼 짚고, 허리를 굽힌 채, 죽은 왕비의 면사포와 결혼반지를 지닌 왕.\n\n그의 이름은 알드윈.\n\n알드윈은 끝내 증명하고 말았다.\n“죽어 마땅한 인간은 존재한다”는, 자신이 가장 부정하고자 했던 신념을.\n\n그리고 그 마지막 대상은, 다름 아닌 자기 자신이었다.\n\n“벨로른은 전쟁으로 멸망하지 않았다. 그곳의 마지막 왕은 누구보다 자신의 나라를 사랑했으며, 그 누구도 살아남지 못했다.”"
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "type": "heading",
+          "text": "기획 의도"
+        },
+        {
+          "type": "text",
+          "text": "백성을 지키던 왕의 무기, 무너진 신념, 스스로를 벌하려는 행동을 하나의 보스전으로 연결합니다. 알드윈의 비극을 이야기로 읽는 데서 그치지 않고, 전투 방식과 공간을 통해 체감하게 하는 것을 목표로 합니다."
+        },
+        {
+          "type": "image",
+          "src": "images/vellorne1.png",
+          "alt": "VELLORNE 기획 의도 이미지"
+        },
+        {
+          "type": "heading",
+          "text": "01 · 서사 기반 페이즈 구성"
+        },
+        {
+          "type": "text",
+          "text": "1페이즈 — 부러진 왕검\n부러진 왕검을 사용하는 전투로 왕으로서의 과거와 남아 있는 위엄을 드러냅니다. 플레이어가 공격의 전조와 빈틈을 관찰하며 알드윈의 전투 리듬을 익히도록 구성합니다."
+        },
+        {
+          "type": "image",
+          "src": "images/vellorne2.png",
+          "alt": "알드윈 1페이즈 — 부러진 왕검"
+        },
+        {
+          "type": "text",
+          "text": "2페이즈 — 자신의 육체를 무기로\n자신의 육체를 무기로 사용하는 방식으로 전환하여 무너진 왕의 내면을 전투로 표현합니다. 자신의 몸까지 소모하는 행동을 통해 전투의 감정과 의미가 달라지도록 설계합니다."
+        },
+        {
+          "type": "image",
+          "src": "images/vellorne3.png",
+          "alt": "알드윈 2페이즈 — 자신의 육체를 무기로"
+        },
+        {
+          "type": "heading",
+          "text": "02 · 자기희생 전투 기믹"
+        },
+        {
+          "type": "text",
+          "text": "강력한 공격을 사용할수록 알드윈 자신의 체력이 감소하는 시스템을 기획합니다. 플레이어는 강력한 공격을 견디면서 반격할 기회를 판단하고, 보스는 스스로를 소모하며 싸움을 이어갑니다.\n\n이 기믹은 알드윈이 자신 역시 죽어 마땅한 존재로 여기게 된 서사를 전투 규칙으로 전달합니다. 체력 소모량과 공격 빈도는 기다리는 전략만 유리해지지 않도록 플레이 테스트에서 조정할 항목입니다."
+        },
+        {
+          "type": "heading",
+          "text": "03 · 환경 스토리텔링과 보스룸 연출"
+        },
+        {
+          "type": "text",
+          "text": "왕성의 기록과 보스룸 연출을 통해 왕국의 멸망과 알드윈의 과거를 간접적으로 전달합니다. 왕의 자비와 그 결과를 알아가는 탐색 과정이 알드윈과의 조우로 이어지도록 구성합니다.\n\n부러진 왕검, 굽은 자세, 죽은 왕비의 면사포와 결혼반지는 과거와 상실을 보여주는 핵심 시각 요소입니다. 보스의 실루엣과 컷신에서 이 요소들이 읽히도록 연출을 기획합니다."
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "type": "heading",
+          "text": "주요 제작 자료"
+        },
+        {
+          "type": "text",
+          "text": "알드윈 캐릭터 컨셉아트 / 3D 모델링 / 전투 시스템 기획 / 보스룸 및 컷신 연출 기획"
+        }
+      ]
+    },
+
+    {
+      id: 'stylisharena', cat: 'unreal', scene: 'arena', title: 'Stylish : Arena', images: [
         'images/are0.png',
+        'images/are3.png',
         'images/are1.png',
-        'images/are2.png'
+        'images/are2.png',
+        'images/are6.png',
+        'images/are5.png',
+        'images/are4.png',
       ], engine: 'Unreal Engine 5', status: '', role: '기획 · 개발',
       desc: '초능력을 활용해 전장을 누비는 하이퍼 FPS 배틀로얄',
       points: ['자료 정리중----------------------------------------']
     },
 
     {
-      id: 'dream', cat: 'msw', scene: 'dream', live: true, title: 'Lucid Dream', images: [
+      id: 'luciddream', cat: 'msw', scene: 'dream', live: true, title: 'Lucid Dream', images: [
         'images/lucid0.png',
       ], engine: 'MapleStory Worlds', status: '', role: '기획 · 개발',
       desc: '루시드에게 꿈을 빼앗긴 사람들의 이야기를 담은 2D 횡스크롤 로그라이크',
@@ -548,7 +671,7 @@ const SITE = {
     },
 
     {
-      id: 'research', cat: 'research', scene: 'flow', live: true, title: '게임 장르 트렌드 연구', engine: '연구', status: '동계 학술대회 논문', role: '',
+      id: 'research0', cat: 'research', scene: 'flow', live: true, title: '게임 장르 트렌드 연구', engine: '연구', status: '동계 학술대회 논문', role: '',
       desc: 'Steam 연말 매출 상위 Platinum 게임군의 구성 변화 : 2016~2025년 10개 특성에 대한 탐색적 내용분석',
       points: ['자료 정리중----------------------------------------']
     },
@@ -1487,13 +1610,48 @@ tabs.addEventListener('click', e=>{ const b = e.target.closest('.tab'); if(b) se
 
 /* watch modal */
 const watch = document.getElementById('watch'); let lastFocus = null, wAnim = 0;
+
+function renderProjectDetails(blocks){
+  const container=document.getElementById('wDetails');
+  container.replaceChildren();
+  for(const block of Array.isArray(blocks)?blocks:[]){
+    if(!block || typeof block!=='object') continue;
+    let node;
+    if(block.type==='heading' || block.type==='text'){
+      if(typeof block.text!=='string' || !block.text.trim()) continue;
+      node=document.createElement(block.type==='heading'?'h3':'p');
+      node.textContent=block.text;
+    }else if(block.type==='divider'){
+      node=document.createElement('hr');
+    }else if(block.type==='image'){
+      if(typeof block.src!=='string' || !block.src.trim()) continue;
+      let url; try{url=new URL(block.src,document.baseURI);}catch{continue;}
+      if(!['http:','https:','file:'].includes(url.protocol)) continue;
+      node=document.createElement('figure');
+      const img=document.createElement('img');
+      img.src=url.href;img.alt=typeof block.alt==='string'?block.alt:'';
+      img.loading='lazy';img.decoding='async';node.append(img);
+      if(typeof block.caption==='string' && block.caption.trim()){
+        const caption=document.createElement('figcaption');
+        caption.textContent=block.caption;node.append(caption);
+      }
+    }
+    if(node)container.append(node);
+  }
+  container.hidden=container.childElementCount===0;
+}
+
 function openWatch(id){
   const p = SITE.projects.find(x=>x.id===id); if(!p) return;
   lastFocus = document.activeElement;
   document.getElementById('wTitle').textContent = p.title;
   document.getElementById('wMeta').innerHTML = `<span class="pill">${esc(p.engine)}</span><span>${esc(p.status)}</span><span>${esc(p.role)}</span>`;
   document.getElementById('wDesc').textContent = p.desc;
+  // 상세 기획 내용이 있으면 기존 설명 박스 숨기기
+  const descBox = document.getElementById('wDescBox');
+  descBox.hidden = Array.isArray(p.details) && p.details.length > 0;
   document.getElementById('wPoints').innerHTML = p.points.map(t=>`<li>${esc(t)}</li>`).join('');
+  renderProjectDetails(p.details);
   const logs = SITE.logs.filter(l=>l[0]===id);
   
   
