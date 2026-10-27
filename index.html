@@ -536,7 +536,7 @@ const SITE = {
   projects: [
 
     {
-      id: 'stylishrevenge', cat: 'unreal', scene: 'revenge', live: true, title: 'Stylish : REVENGE', images: [
+      id: 'stylishrevenge', order: 1, cat: 'unreal', live: true, title: 'Stylish : REVENGE', images: [
         'images/revenge0.png',
         'images/revenge1.png',
         'images/revenge2.png',
@@ -546,10 +546,7 @@ const SITE = {
         'images/revenge6.png',
         'images/revenge7.png',
         'images/revenge8.png',
-      ], engine: 'Unreal Engine 5', status: '', role: '기획',
-      desc: '',
-      points: [],
-
+      ], engine: 'Unreal Engine 5', status: '기획',
       details: [
         {
           type: "heading",
@@ -565,7 +562,7 @@ const SITE = {
         },
         {
           type: "text",
-          text: "Stylish : REVENGE는 각기 다른 능력과 전투 스타일을 가진 캐릭터들이 최후의 생존자를 가리기 위해 경쟁하는 배틀로얄 FPS 프로젝트입니다.\n\n플레이어는 다양한 캐릭터 중 하나를 선택하고, 고유한 능력과 무기를 활용해 전투를 펼칩니다. 단순한 사격 실력뿐 아니라 캐릭터의 특성과 전장 상황을 고려한 전략적인 플레이를 목표로 합니다."
+          text: "Stylish : Arena의 후속작으로, 각기 다른 능력과 전투 스타일을 가진 캐릭터들이 최후의 생존자를 가리기 위해 경쟁하는 배틀로얄 FPS 프로젝트입니다.\n\n플레이어는 다양한 캐릭터 중 하나를 선택하고, 고유한 능력과 무기를 활용해 전투를 펼칩니다. 단순한 사격 실력뿐 아니라 캐릭터의 특성과 전장 상황을 고려한 전략적인 플레이를 목표로 합니다."
         },
         {
           type: "heading",
@@ -581,7 +578,7 @@ const SITE = {
         },
         {
           type: "text",
-          text: "① 개성 있는 캐릭터 시스템\n데미갓, 사신, 홀리 아처 등 서로 다른 콘셉트와 능력을 가진 캐릭터를 구성하여 다양한 전투 스타일을 제공합니다.\n\n② 능력 중심의 FPS 전투\n총기 전투에 캐릭터별 고유 능력을 결합하여, 능력을 사용하는 타이밍과 상황 판단이 교전 결과에 영향을 주도록 설계합니다.\n\n③ 전략적인 배틀로얄\n캐릭터의 강점과 약점, 전투 거리와 지형을 고려해 교전 방식을 선택하고 최후까지 살아남는 경험을 목표로 합니다."
+          text: "① 개성 있는 캐릭터 시스템\n데미갓, 사신, 홀리 아처 등 서로 다른 콘셉트와 능력을 가진 캐릭터를 구성하여 다양한 전투 스타일을 제공합니다.\n\n② 능력 중심의 FPS 전투\n전투에 캐릭터별 고유 능력을 결합하여, 능력을 사용하는 타이밍과 상황 판단이 교전 결과에 영향을 주도록 설계합니다.\n\n③ 전략적인 배틀로얄\n캐릭터의 강점과 약점, 전투 거리와 지형을 고려해 교전 방식을 선택하고 최후까지 살아남는 경험을 목표로 합니다."
         },
         {
           type: "heading",
@@ -604,17 +601,9 @@ const SITE = {
     },
 
     {
-      id: 'vellorne', cat: 'unreal', scene: 'arena', live: true, title: '벨로른의 마지막 왕, 알드윈', images: [
+      id: 'vellorne', order: 2, cat: 'unreal', live: true, title: '벨로른의 마지막 왕, 알드윈', images: [
         'images/vellorne0.png',
-      ], engine: 'Unreal Engine 5', status: '', role: '컨셉 디자인',
-      desc: '',
-      points: [],
-      // details는 순서대로 표시됩니다. 다른 프로젝트에도 같은 배열을 추가할 수 있습니다.
-      // { type: 'heading', text: '소제목' }
-      // { type: 'text', text: '본문' } — 줄바꿈은 \n, 문단 간격은 \n\n
-      // { type: 'image', src: 'images/example.png', alt: '이미지 설명', caption: '선택 설명' }
-      // { type: 'divider' } — 구분선
-      // images는 상단 갤러리, details의 image는 본문 사진입니다.
+      ], engine: 'Unreal Engine 5', status: '컨셉 디자인',
       details: [
         {
           "type": "heading",
@@ -708,11 +697,9 @@ const SITE = {
     },
 
     {
-      id: 'luciddream', cat: 'msw', scene: 'dream', live: true, title: 'Lucid Dream', images: [
+      id: 'luciddream', order: 5, cat: 'msw', live: true, title: 'Lucid Dream', images: [
         'images/lucid0.png',
-      ], engine: 'MapleStory Worlds', status: '', role: '프리 알파',
-      desc: '',
-      points: [],
+      ], engine: 'MapleStory Worlds', status: '프리 알파',
       details: [
         {
           type: "heading",
@@ -726,11 +713,9 @@ const SITE = {
     },
 
     {
-      id: 'kagero', cat: 'unreal', scene: 'arena', live: true, title: 'Kagero', images: [
+      id: 'kagero', order: 6, cat: 'unreal', live: true, title: 'Kagero', images: [
         'images/kagero0.png',
-      ], engine: 'Unreal Engine 5', status: '', role: '기획',
-      desc: '',
-      points: [],
+      ], engine: 'Unreal Engine 5', status: '기획',
       details: [
         {
           type: "heading",
@@ -745,11 +730,9 @@ const SITE = {
     },
 
     {
-      id: 'research0', cat: 'research', scene: 'flow', title: 'Steam Platinum 게임군 변화 연구', images: [
+      id: 'research0', order: 3, cat: 'research', title: 'Steam Platinum 게임군 변화 연구', images: [
         'images/research0.png'
-      ], engine: '논문', status: '', role: '연구 완료',
-      desc: '',
-      points: [],
+      ], engine: '논문', status: '연구 완료',
       details: [
         {
           type: "heading",
@@ -763,11 +746,9 @@ const SITE = {
     },
 
     {
-      id: 'unitygame', cat: 'unity', scene: 'tagom', title: '빙하타곰', images: [
+      id: 'unitygame', order: 4, cat: 'unity', title: '빙하타곰', images: [
         'images/tagom0.png',      
-      ], engine: 'Unity', status: '', role: '개발 완료',
-      desc: '',
-      points: [],
+      ], engine: 'Unity', status: '개발 완료',
       details: [
         {
           type: "heading",
@@ -1806,20 +1787,23 @@ document.getElementById('addr').textContent = SITE.email;
 document.getElementById('igLink').href = SITE.instagram.url;
 
   const grid = document.getElementById('grid');
-  grid.innerHTML = SITE.projects.map((p, i) => `
+
+grid.innerHTML = [...SITE.projects]
+  .sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
+  .map((p, i) => `
   <button class="card" type="button" data-id="${p.id}" data-cat="${p.cat}">
     <span class="thumb">
   ${p.images?.length
       ? `<img src="${esc(p.images[0])}"
          alt="${esc(p.title)}"
          style="width:100%;height:100%;object-fit:cover;display:block;">`
-      : `<canvas data-scene="${p.scene}" data-seed="${i + 3}"></canvas>`
+      : `<canvas data-scene="${esc(p.scene ?? '')}" data-seed="${i + 3}"></canvas>`
     }
   ${p.live ? '<span class="live">DEV</span>' : ''}
   <span class="badge">${esc(p.engine.split(' · ')[0])}</span>
 </span>
     
-<span class="card-body"><span class="mini-av" aria-hidden="true">하</span><span><span class="ct">${esc(p.title)}</span><span class="meta">${esc(p.status)}${p.status && p.role ? ' · ' : ''}${esc(p.role || '')}</span></span></span>
+<span class="card-body"><span class="mini-av" aria-hidden="true">하</span><span><span class="ct">${esc(p.title)}</span><span class="meta">${esc(p.status)}</span></span></span>
 
   </button>`).join('');
 function paintThumbs(){ grid.querySelectorAll('canvas').forEach(cv=>{ if(cv.offsetParent) drawStatic(cv, cv.dataset.scene, +cv.dataset.seed); }); }
@@ -1871,12 +1855,12 @@ function openWatch(id){
   const p = SITE.projects.find(x=>x.id===id); if(!p) return;
   lastFocus = document.activeElement;
   document.getElementById('wTitle').textContent = p.title;
-  document.getElementById('wMeta').innerHTML = `<span class="pill">${esc(p.engine)}</span><span>${esc(p.status)}</span><span>${esc(p.role)}</span>`;
-  document.getElementById('wDesc').textContent = p.desc;
+  document.getElementById('wMeta').innerHTML = `<span class="pill">${esc(p.engine)}</span>${p.status ? `<span>${esc(p.status)}</span>` : ''}`;
+  document.getElementById('wDesc').textContent = p.desc ?? '';
   // 상세 기획 내용이 있으면 기존 설명 박스 숨기기
   const descBox = document.getElementById('wDescBox');
   descBox.hidden = Array.isArray(p.details) && p.details.length > 0;
-  document.getElementById('wPoints').innerHTML = p.points.map(t=>`<li>${esc(t)}</li>`).join('');
+  document.getElementById('wPoints').innerHTML = (p.points ?? []).map(t=>`<li>${esc(t)}</li>`).join('');
   renderProjectDetails(p.details);
   const logs = SITE.logs.filter(l=>l[0]===id);
   
@@ -1931,7 +1915,7 @@ function openWatch(id){
     galleryCounter.hidden = true;
 
     requestAnimationFrame(() => {
-      drawStatic(cv, p.scene, 11);
+      drawStatic(cv, p.scene ?? '', 11);
     });
   }
   document.getElementById('wClose').focus();
