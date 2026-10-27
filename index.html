@@ -4,36 +4,36 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="게임 개발자 하성욱의 포트폴리오">
-<meta name="theme-color" content="#05080F">
+<meta name="theme-color" content="#08090C">
 <title>하성욱 포트폴리오</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@500;600;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: arcade screen hero (interactive canvas + 3 channel cards) → workflow → channel-style project wall → watch modal → contact.
-   Deliberately single dark theme: a neon-blue arcade at night. Every color derives from these tokens. */
+   Dark portfolio with restrained lavender and champagne accents. */
 :root{
   color-scheme: dark;
-  --bg:#05080F;
-  --bg-raise:#09101D;
-  --bg-glass:rgba(5,8,15,.84);
-  --surface:#0D1526;
-  --surface-2:#132037;
-  --line:#1C2A44;
-  --line-strong:#2B3F63;
-  --fg:#E8F0FF;
-  --fg-2:#C0CDE8;
-  --muted:#93A3C4;
-  --dim:#7384A6;
-  --accent:#3FA2FF;
-  --accent-2:#6FD3FF;
-  --accent-ink:#041327;
-  --a08:rgba(63,162,255,.08);
-  --a14:rgba(63,162,255,.14);
-  --a30:rgba(63,162,255,.30);
-  --a55:rgba(63,162,255,.55);
-  --violet:#8C7BFF;
-  --ice:#CFE3FF;
+  --bg:#08090C;
+  --bg-raise:#111216;
+  --bg-glass:rgba(8,9,12,.88);
+  --surface:#16181D;
+  --surface-2:#202228;
+  --line:#292C34;
+  --line-strong:#484C57;
+  --fg:#FFFFFF;
+  --fg-2:#D1D3DA;
+  --muted:#A0A4AE;
+  --dim:#808590;
+  --accent:#F3F4F6;
+  --accent-2:#D3D6DE;
+  --accent-ink:#08090C;
+  --a08:rgba(255,255,255,.08);
+  --a14:rgba(255,255,255,.14);
+  --a30:rgba(255,255,255,.30);
+  --a55:rgba(255,255,255,.55);
+  --violet:#C5C7CE;
+  --ice:#F3F4F6;
   --warn:#FF6B8A;
   --scrim:rgba(2,4,9,.8);
 
@@ -338,131 +338,74 @@ footer{padding-block:28px 40px;color:var(--dim);font-size:12px}
   display: block;
 }
 
-/* =========================================
-   BLACK & WHITE PORTFOLIO THEME
-   ========================================= */
-
-:root {
-  --bg: #08090C;
-  --bg-raise: #111216;
-  --bg-glass: rgba(8,9,12,.88);
-
-  --surface: #16181D;
-  --surface-2: #202228;
-
-  --line: #292C34;
-  --line-strong: #484C57;
-
-  --fg: #FFFFFF;
-  --fg-2: #D1D3DA;
-  --muted: #A0A4AE;
-  --dim: #808590;
-
-  --accent: #F3F4F6;
-  --accent-2: #D3D6DE;
-  --accent-ink: #08090C;
-
-  --a08: rgba(255,255,255,.08);
-  --a14: rgba(255,255,255,.14);
-  --a30: rgba(255,255,255,.30);
-  --a55: rgba(255,255,255,.55);
-
-  --violet: #C5C7CE;
-  --ice: #F3F4F6;
-}
-
-/* 상단 배경 */
-.hero {
-  background:
-    radial-gradient(80% 50% at 50% 0%, #25272F 0%, transparent 72%),
-    var(--bg);
-}
-
-/* 메인 화면 테두리 */
-.frame {
-  background: linear-gradient(180deg, #35373E, #15161B);
-  box-shadow:
-    0 0 0 1px var(--a30),
-    0 0 40px rgba(255,255,255,.08),
-    0 30px 80px rgba(0,0,0,.6);
-}
-
-/* 바닥 그리드 */
-.floor::before {
-  background:
-    repeating-linear-gradient(90deg,rgba(255,255,255,.18) 0 1px,transparent 1px 64px),
-    repeating-linear-gradient(0deg,rgba(255,255,255,.14) 0 1px,transparent 1px 48px);
-}
-
-/* 게임 디자인 철학 카드 */
-.ch-card {
-  background: linear-gradient(
-    180deg,
-    rgba(32,33,39,.85),
-    rgba(12,13,17,.85)
-  );
-}
-
-.ch-card[aria-pressed="true"] {
-  box-shadow:
-    0 0 0 1px var(--accent),
-    0 0 25px rgba(255,255,255,.12),
-    inset 0 0 24px var(--a08);
-}
-
-/* 강조 버튼 */
-.btn-glow {
-  box-shadow:
-    0 0 18px rgba(255,255,255,.12),
-    inset 0 0 12px var(--a08);
-}
-
-/* 배너 텍스트와 격자 */
-.banner-text {
-  text-shadow: 0 0 24px rgba(255,255,255,.25);
-}
-
-.banner::before {
-  background: repeating-linear-gradient(
-    90deg,
-    rgba(255,255,255,.04) 0 1px,
-    transparent 1px 28px
-  );
-}
-
-/* 프로젝트 카드 호버 */
-.card:hover .thumb,
-.card:focus-visible .thumb {
-  border-color: var(--accent);
-  box-shadow: 0 0 22px rgba(255,255,255,.16);
-}
-
-/* 연락처 영역 */
-.contact-box {
-  background:
-    radial-gradient(70% 120% at 0% 0%,#24262D 0%,transparent 60%),
-    var(--bg-raise);
-  box-shadow: inset 0 0 40px var(--a08);
-}
-
-/* 플레이 테스트 버튼 */
-.play-controls .play-mode.active {
-  border-color: var(--accent);
-  background: rgba(255,255,255,.12);
-  color: var(--accent);
-  box-shadow: 0 0 12px rgba(255,255,255,.1);
-}
-
-.play-controls button:hover {
-  border-color: var(--accent-2);
-  color: #fff;
-}
-
-/* 배너 글씨 가독성 개선 */
-.banner-text {
-  color: #FFFFFF;
-  -webkit-text-stroke: 1.5px #101522;
-  text-shadow: 0 2px 8px rgba(0,0,0,.85);
+/* Refined portfolio; project content and media paths are preserved. */
+:root{--lavender:#bcb4e3;--champagne:#d5c3a5;--fg:#f4f2ed;--dim:#969aa7}
+.hero{background:radial-gradient(ellipse at 50% 0%,#252330 0%,transparent 62%),var(--bg)}
+.frame{background:linear-gradient(150deg,#45434e,#19191f 60%);box-shadow:0 0 0 1px #44434c,0 22px 70px #0008}
+.floor{opacity:.28}
+.floor::before{background:repeating-linear-gradient(90deg,#bcb4e326 0 1px,transparent 1px 64px),repeating-linear-gradient(0deg,#bcb4e320 0 1px,transparent 1px 48px);animation:none}
+.screen-glow{opacity:.18}
+.hero-copy{isolation:isolate;padding-bottom:110px}
+.hero-copy::before{content:"";position:absolute;z-index:-1;width:min(80%,780px);height:300px;left:50%;top:0;transform:translateX(-50%);background:radial-gradient(ellipse,#8375b313,transparent 68%);pointer-events:none}
+.hero-copy>.eyebrow{color:var(--champagne);letter-spacing:.22em;font-size:11px;margin-bottom:24px}
+.hero-copy h1{font-family:var(--font-body);font-size:clamp(34px,6.1vw,72px);font-weight:600;letter-spacing:-.045em;line-height:1.12;text-shadow:none}
+.hero-copy h1 em{display:inline-block;color:var(--lavender);background:linear-gradient(110deg,#f1e9db 5%,#bcb4e3 56%,#d8dce7 95%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.lede{margin-top:24px;color:#b4b5be;font-size:15px;max-width:52ch}
+.channels{gap:16px;max-width:1040px;margin-top:48px}
+.ch-card{--card-accent:var(--lavender);align-items:flex-start;text-align:left;gap:12px;padding:24px 24px 32px;border:1px solid #34323e;border-radius:16px;background:radial-gradient(ellipse at 100% 0%,#8474ba16,transparent 65%),linear-gradient(145deg,#1a1a21,#101116);overflow:hidden}
+.ch-card:nth-child(2){--card-accent:#c5cbd5}
+.ch-card:nth-child(3){--card-accent:var(--champagne)}
+.ch-card::before{content:"";position:absolute;inset:0 24px auto;height:1px;background:linear-gradient(90deg,transparent,var(--card-accent),transparent);opacity:.4}
+.ch-card:hover{transform:translateY(-4px);border-color:#797487;box-shadow:0 14px 30px #0003}
+.ch-card[aria-pressed="true"]{border-color:#8b819e;box-shadow:0 12px 36px #0004,inset 0 0 28px #a69ac409}
+.ch-top{color:var(--card-accent);letter-spacing:.17em;margin-bottom:4px}
+.ch-icon{color:var(--card-accent);width:27px;height:27px;margin:8px 0 0}
+.ch-big{color:var(--fg);font-size:25px;letter-spacing:.03em;margin-top:2px}
+.ch-title{font-size:14px}
+.ch-desc{font-size:13px;color:#aaabb6}
+[aria-pressed="true"] .ch-live{background:var(--card-accent);box-shadow:0 0 9px #bcb4e340}
+.ch-bar{left:24px;right:24px;background:#ffffff08;height:1px}
+.ch-bar i{background:var(--card-accent);box-shadow:none}
+.hint{margin-top:24px;font-family:var(--font-body);font-size:12px}
+.btn{transition:transform .2s,background .2s,border-color .2s,color .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-glow{background:#e7e3ec;color:#17151d;border-color:#e7e3ec;box-shadow:0 4px 20px #0002}
+.btn-glow:hover{background:#f5f0e9;border-color:#f5f0e9;color:#17151d}
+.section{scroll-margin-top:75px}
+#workflow{background:radial-gradient(ellipse at 100% 30%,#b4a0da08,transparent 65%),#0c0d11}
+.eyebrow{color:var(--lavender)}
+.sec-head .eyebrow{margin-bottom:14px;color:var(--champagne)}
+.steps{gap:14px}
+.step{gap:14px;padding:24px 20px;border-radius:12px;border-color:#303039;background:linear-gradient(150deg,#1b1b22,#121318);transition:transform .25s,border-color .25s;min-height:260px}
+.step:hover{transform:translateY(-4px);border-color:#696273}
+.step-n{display:flex;align-items:center;gap:14px;font-size:24px;font-weight:400;color:var(--champagne);letter-spacing:-.06em}
+.step-n::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,#bcb4e34d,transparent)}
+.step:not(:last-child)::after{background:#bcb4e34d;right:-15px;width:15px;top:36px}
+.step h3{font-size:16px;line-height:1.5}
+.step p{color:#adaeb8}
+.out{font-family:var(--font-body);font-size:11px;line-height:1.4;border-style:solid;border-color:#d5c3a530;color:#d5c3a5;background:#d5c3a508;padding:6px 9px}
+.banner::before{background:repeating-linear-gradient(90deg,#ffffff0a 0 1px,transparent 1px 28px)}
+.banner-text{color:#fff;-webkit-text-stroke:1.5px #101522;text-shadow:0 2px 8px #000d}
+.card:hover .thumb,.card:focus-visible .thumb{border-color:var(--accent);box-shadow:0 0 22px #ffffff29}
+.play-controls button{background:#14141deb;color:#d9d5e6;border-color:#555060}
+.play-controls button:hover{border-color:var(--lavender);color:#fff}
+.play-controls .play-mode.active{border-color:var(--lavender);background:#bcb4e31f;color:#eee9ff;box-shadow:none}
+#contact{background:linear-gradient(180deg,var(--bg),#101016);padding-bottom:80px}
+.contact-box{position:relative;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;gap:40px;padding:clamp(28px,5vw,64px);border:1px solid #49434f;border-radius:20px;background:radial-gradient(ellipse at 100% 0%,#9a83cf20,transparent 62%),radial-gradient(ellipse at 0% 100%,#c3a67b0b,transparent 60%),#141419;box-shadow:0 24px 70px #0003}
+.contact-box::before{content:"";position:absolute;top:0;left:36px;right:36px;height:1px;background:linear-gradient(90deg,#d5c3a5,#bcb4e3,transparent);opacity:.65}
+.contact-box h2{font-size:clamp(30px,4vw,46px);font-weight:500;letter-spacing:-.04em;line-height:1.3}
+.contact-box .eyebrow{color:var(--champagne);margin-bottom:22px}
+.c-actions{display:grid;grid-template-columns:1fr 1fr;gap:14px 12px;border-left:1px solid #ffffff12;padding-left:36px;align-content:center}
+.c-actions .btn{justify-content:center;padding:0 14px;min-height:52px;font-size:13px}
+.contact-label{grid-column:1/-1;font:400 10px/1 var(--font-mono);letter-spacing:.18em;color:var(--champagne);margin-top:14px}
+.addr{grid-column:1/-1;padding:0;border:0;border-radius:0;color:#cecad7;font-size:clamp(11px,1.5vw,14px);line-height:1.6;overflow-wrap:anywhere}
+@media(max-width:980px){.step{min-height:220px}.contact-box{gap:28px}.c-actions{padding-left:24px;grid-template-columns:1fr}.c-actions .btn{width:100%}}
+@media(max-width:680px){.hero-copy{padding-bottom:64px}.hero-copy>.eyebrow{font-size:9px;letter-spacing:.12em}.channels{margin-top:32px}.ch-card{padding:20px 20px 26px;column-gap:18px;row-gap:6px;text-align:left}.ch-icon{margin:0}.ch-big{font-size:22px}.ch-top{margin:0}.contact-box{grid-template-columns:1fr}.c-actions{border-left:0;border-top:1px solid #ffffff12;padding:24px 0 0;grid-template-columns:1fr 1fr}.step{min-height:0}.contact-box h2{max-width:none}}
+@media(max-width:360px){.c-actions{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.ch-card:hover,.step:hover,.btn:hover{transform:none}.screen-tilt{transform:none}}
+@media(forced-colors:active){.hero-copy h1 em{-webkit-text-fill-color:CanvasText;background:none}}
+#contact #addr {
+  display: none !important;
 }
 
 </style>
@@ -483,7 +426,7 @@ footer{padding-block:28px 40px;color:var(--dim);font-size:12px}
         <div class="screen-wrap">
           <div class="screen-tilt">
             <div class="frame">
-              <canvas id="screen" role="img" aria-label="선택한 채널에 맞는 인터랙티브 장면이 나오는 스크린"></canvas>
+              <canvas id="screen" tabindex="0" role="img" aria-label="인터랙티브 스크린. 클릭 또는 Enter로 실행. SIMPLICITY는 Space를 누르는 동안 시간 정지."></canvas>
 
 <div class="play-controls" id="playControls" hidden>
   <button type="button" class="play-mode active" data-test="0">
@@ -509,7 +452,7 @@ footer{padding-block:28px 40px;color:var(--dim);font-size:12px}
     </div>
 
     <div class="hero-copy wrap">
-      <p class="eyebrow">TECHNICAL GAME DESIGNER · 하성욱</p>
+      <p class="eyebrow">TECHNICAL GAME DESIGNER</p>
       <h1 id="heroTitle">Beyond the Game.<br><em>The Art of Play.</em></h1>
       <p class="lede">재미를 기획하고, 경험을 설계하는 테크니컬 게임 디자이너입니다.</p>
       <div class="channels" id="channels" role="group" aria-label="나를 설명하는 세 가지 채널">
@@ -624,11 +567,14 @@ footer{padding-block:28px 40px;color:var(--dim);font-size:12px}
         <button class="btn" type="button" id="copy">
           이메일 복사
         </button>
-        <span class="addr" id="addr" hidden></span>
+        
+        <span class="addr" id="addr"></span>
       </div>
     </div>
   </div>
 </section>
+
+</main>
 
 <div class="watch" id="watch" role="dialog" aria-modal="true" aria-labelledby="wTitle" hidden>
   <div class="watch-in">
@@ -1796,21 +1742,22 @@ function selectPlayTest(test) {
   resetCoyote(SW);
 
   document.querySelectorAll('.play-mode').forEach(btn => {
-    btn.classList.toggle(
-      'active',
-      Number(btn.dataset.test) === test
-    );
+    const selected = Number(btn.dataset.test) === test;
+    btn.classList.toggle('active', selected);
+    btn.setAttribute('aria-pressed', String(selected));
   });
 }
 
 document.querySelectorAll('.play-mode').forEach(btn => {
   btn.addEventListener('click', () => {
     selectPlayTest(Number(btn.dataset.test));
+    if (reduce) drawFrame(0);
   });
 });
 
 document.getElementById('playRetry').addEventListener('click', () => {
   resetCoyote(SW);
+  if (reduce) drawFrame(0);
 });
 
 
@@ -1983,7 +1930,7 @@ function setTab(tab){
 tabs.addEventListener('click', e=>{ const b = e.target.closest('.tab'); if(b) setTab(b.dataset.tab); });
 
 /* watch modal */
-const watch = document.getElementById('watch'); let lastFocus = null, wAnim = 0;
+const watch = document.getElementById('watch'); let lastFocus = null;
 
 function renderProjectDetails(blocks){
   const container=document.getElementById('wDetails');
@@ -2026,10 +1973,9 @@ function openWatch(id){
   descBox.hidden = Array.isArray(p.details) && p.details.length > 0;
   document.getElementById('wPoints').innerHTML = (p.points ?? []).map(t=>`<li>${esc(t)}</li>`).join('');
   renderProjectDetails(p.details);
-  const logs = SITE.logs.filter(l=>l[0]===id);
   
   
-  watch.hidden = false; document.documentElement.style.overflow = 'hidden';
+  watch.hidden = false; document.querySelector('main').inert = true; document.getElementById('nav').inert = true; document.documentElement.style.overflow = 'hidden';
   const cv = document.getElementById('wCanvas');
 
   const galleryImage = document.getElementById('galleryImage');
@@ -2084,11 +2030,42 @@ function openWatch(id){
   }
   document.getElementById('wClose').focus();
 }
-function closeWatch(){ watch.hidden = true; document.documentElement.style.overflow = ''; if(lastFocus) lastFocus.focus(); }
+function closeWatch(){ watch.hidden = true; document.querySelector('main').inert = false; document.getElementById('nav').inert = false; document.documentElement.style.overflow = ''; if(lastFocus) lastFocus.focus(); }
 grid.addEventListener('click', e=>{ const c = e.target.closest('.card'); if(c) openWatch(c.dataset.id); });
 document.getElementById('wClose').addEventListener('click', closeWatch);
 watch.addEventListener('click', e=>{ if(e.target===watch) closeWatch(); });
 document.addEventListener('keydown', e=>{ if(!watch.hidden && e.key==='Escape') closeWatch(); });
+
+/* Keyboard parity for existing interactions. */
+screen.addEventListener('keydown', e => {
+  if (!['Enter', ' '].includes(e.key)) return;
+  e.preventDefault(); if (e.repeat) return; userPicked = true;
+  if (mode === 0) tapMath(SW / 2, SH / 2);
+  else if (mode === 1) startFreeze();
+  else act();
+  if (reduce) drawFrame(0);
+});
+screen.addEventListener('keyup', e => { if (['Enter', ' '].includes(e.key)) stopFreeze(); });
+screen.addEventListener('blur', stopFreeze);
+tabs.addEventListener('keydown', e => {
+  const buttons = [...tabs.querySelectorAll('.tab')];
+  const current = buttons.indexOf(document.activeElement);
+  if (current < 0) return;
+  let next;
+  if (e.key === 'ArrowRight') next = (current + 1) % buttons.length;
+  else if (e.key === 'ArrowLeft') next = (current - 1 + buttons.length) % buttons.length;
+  else if (e.key === 'Home') next = 0;
+  else if (e.key === 'End') next = buttons.length - 1;
+  else return;
+  e.preventDefault(); buttons[next].focus(); setTab(buttons[next].dataset.tab);
+});
+watch.addEventListener('keydown', e => {
+  if (e.key !== 'Tab') return;
+  const items = [...watch.querySelectorAll('button,a[href],[tabindex="0"]')].filter(el => el.getClientRects().length);
+  const first = items[0], last = items[items.length - 1];
+  if (e.shiftKey && document.activeElement === first) {e.preventDefault(); last.focus();}
+  else if (!e.shiftKey && document.activeElement === last) {e.preventDefault(); first.focus();}
+});
 
 /* nav + copy */
 const nav = document.getElementById('nav');
